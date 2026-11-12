@@ -34,6 +34,7 @@ table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}
 th,td{border:1px solid #eee;padding:8px;text-align:left}
 th{background:var(--navy);color:#fff}
 .badge{background:#FDE8EA;color:var(--red);padding:4px 10px;border-radius:20px;font-size:12px;font-weight:bold}
+.hint{font-size:11px;color:#666;margin:2px 0 0}
 #printArea{display:none}
 @media print{
   @page{margin:10mm}
@@ -54,7 +55,6 @@ th{background:var(--navy);color:#fff}
 .p-box-inline b{white-space:nowrap}
 .p-sign{margin-top:28px;display:flex;justify-content:flex-end;text-align:center;font-size:12px}
 @media(max-width:700px){
-  header{padding:6px 10px 2px}
   header img{width:55px}
   .head-spacer{width:55px}
   .head-center h1{font-size:30px}
@@ -75,6 +75,17 @@ th{background:var(--navy);color:#fff}
 <div class="head-spacer"></div>
 </header>
 
+<!-- AUTOCOMPLETE LISTS -->
+<datalist id="complaintList">
+<option value="FEVER"></option><option value="FEVER 3 DAYS"></option><option value="FEVER, COUGH"></option><option value="FEVER, HEADACHE"></option><option value="COUGH"></option><option value="DRY COUGH"></option><option value="PRODUCTIVE COUGH"></option><option value="SORE THROAT"></option><option value="HEADACHE"></option><option value="BODY ACHE"></option><option value="JOINT PAIN"></option><option value="BACK PAIN"></option><option value="ABDOMINAL PAIN"></option><option value="STOMACH PAIN"></option><option value="VOMITING"></option><option value="LOOSE MOTION"></option><option value="DIARRHEA"></option><option value="CONSTIPATION"></option><option value="NAUSEA"></option><option value="CHEST PAIN"></option><option value="SHORTNESS OF BREATH"></option><option value="FLU"></option><option value="COLD"></option><option value="RUNNY NOSE"></option><option value="ALLERGY"></option><option value="SKIN RASH"></option><option value="ITCHING"></option><option value="WEAKNESS"></option><option value="DIZZINESS"></option><option value="HIGH BP"></option><option value="SUGAR HIGH"></option><option value="BURNING URINE"></option><option value="EAR PAIN"></option><option value="TOOTH PAIN"></option><option value="EYE REDNESS"></option>
+</datalist>
+<datalist id="diagnosisList">
+<option value="URTI"></option><option value="LRTI"></option><option value="TYPHOID FEVER"></option><option value="MALARIA"></option><option value="DENGUE FEVER"></option><option value="VIRAL FEVER"></option><option value="FLU"></option><option value="ALLERGIC RHINITIS"></option><option value="PHARYNGITIS"></option><option value="TONSILLITIS"></option><option value="BRONCHITIS"></option><option value="PNEUMONIA"></option><option value="ASTHMA"></option><option value="GASTRITIS"></option><option value="ACID REFLUX"></option><option value="GASTROENTERITIS"></option><option value="DIARRHEA"></option><option value="CONSTIPATION"></option><option value="UTI"></option><option value="HYPERTENSION"></option><option value="DIABETES MELLITUS"></option><option value="MIGRAINE"></option><option value="ANEMIA"></option><option value="SKIN ALLERGY"></option><option value="FUNGAL INFECTION"></option><option value="SCABIES"></option><option value="JOINT PAIN"></option><option value="ARTHRITIS"></option><option value="BACK PAIN"></option><option value="VITAMIN D DEFICIENCY"></option><option value="FEVER - UNDER EVALUATION"></option>
+</datalist>
+<datalist id="medicineList">
+<option value="TAB PANADOL 500 MG"></option><option value="TAB PANADOL CF"></option><option value="TAB AUGMENTIN 625 MG"></option><option value="TAB AZOMAX 250 MG"></option><option value="CAP AZOMAX 250 MG"></option><option value="TAB SOFTIN 5 MG"></option><option value="TAB SOFTIN 10 MG"></option><option value="TAB SURBEX Z"></option><option value="TAB CAC 1000 PLUS"></option><option value="TAB NUBEROL FORTE"></option><option value="TAB BRUFEN 400 MG"></option><option value="TAB VOLTRAL 50 MG"></option><option value="TAB DICLORAN 50 MG"></option><option value="TAB MOTILIUM 10 MG"></option><option value="TAB OMEPRAZOLE 20 MG"></option><option value="CAP RISKEK 20 MG"></option><option value="CAP RISKEK 40 MG"></option><option value="TAB FLAGYL 400 MG"></option><option value="TAB ENTAMIZOLE"></option><option value="TAB CIPROXIN 500 MG"></option><option value="TAB CEFSPAN 400 MG"></option><option value="TAB ZINNAT 500 MG"></option><option value="TAB CALAMOX 625 MG"></option><option value="TAB BETNESOL"></option><option value="TAB AVIL 25 MG"></option><option value="TAB CETRIZINE 10 MG"></option><option value="TAB LORATADINE 10 MG"></option><option value="TAB FEXET 120 MG"></option><option value="SYP PANADOL"></option><option value="SYP BRUFEN"></option><option value="SYP AUGMENTIN"></option><option value="SYP AZOMAX"></option><option value="SYP CALPOL"></option><option value="SYP IBUPROFEN"></option><option value="SYP MOTILIUM"></option><option value="SYP GRAVINATE"></option><option value="SYP SIROLIN"></option><option value="SYP HYDROLINE"></option><option value="SYP ARINAC"></option><option value="SYP CALAMOX"></option><option value="SYP ENTEROGERMINA"></option><option value="ORS"></option><option value="TAB DISPRIN"></option><option value="TAB ARINAC"></option><option value="TAB RIGIX"></option><option value="TAB XYZAL 5 MG"></option><option value="TAB LEFLOX 500 MG"></option><option value="TAB NOVIDAT 500 MG"></option><option value="TAB FLEXON"></option><option value="TAB MYONAL 50 MG"></option><option value="TAB SKELETON"></option><option value="TAB OSNATE D"></option><option value="TAB FOLIC ACID 5 MG"></option><option value="TAB IRON"></option><option value="TAB SANGOBION"></option><option value="INJ DECADRON"></option><option value="INJ AVIL"></option><option value="INJ GRAVINATE"></option><option value="CREAM BETNOVATE"></option><option value="CREAM DERMOVATE"></option><option value="LOTION CALAMINE"></option>
+</datalist>
+
 <div class="container no-print">
 <div class="card">
 <h2>📝 New Prescription</h2>
@@ -91,8 +102,8 @@ th{background:var(--navy);color:#fff}
 </div>
 <label>Address</label><input type="text" id="address" placeholder="Enter Address">
 <div class="row">
-<div><label>Complaint / History</label><textarea id="complaint" rows="3" placeholder="e.g. Fever, Cough, Pain..."></textarea></div>
-<div><label>Diagnosis</label><textarea id="diagnosis" rows="3" placeholder="Enter Diagnosis..."></textarea></div>
+<div><label>Complaint / History</label><textarea id="complaint" rows="3" list="complaintList" placeholder="Type 2-3 letters, e.g. FE..."></textarea><p class="hint">Type 2-3 letters, list khul jayegi - select kar len</p></div>
+<div><label>Diagnosis</label><textarea id="diagnosis" rows="3" list="diagnosisList" placeholder="Type 2-3 letters, e.g. UR..."></textarea><p class="hint">Type 2-3 letters, list khul jayegi - select kar len</p></div>
 </div>
 <label>Vitals</label>
 <div class="row6">
@@ -106,7 +117,8 @@ th{background:var(--navy);color:#fff}
 <label>Test Results</label>
 <textarea id="tests" rows="2" placeholder="e.g. HB: 12, TLC: 12000, PLT: 250,000"></textarea>
 <h3 style="margin:15px 0 0;color:var(--navy);font-size:16px">💊 Medicines</h3>
-<div id="medList"><div class="row3 med-row"><input class="m-name" placeholder="Medicine Name"><input class="m-dose" placeholder="Dose - 1+1"><input class="m-days" placeholder="Days"></div></div>
+<p class="hint">Medicine ka naam type karen - 3 letters likhty hi poora naam aa jayega. Dose aur Days sirf select karen.</p>
+<div id="medList"></div>
 <button class="btn-grey" style="margin-top:8px" onclick="addMed()">+ Add Medicine</button>
 <label>Advice</label><textarea id="advice" rows="2" placeholder="e.g. Take rest, drink more water..."></textarea>
 <div class="row">
@@ -150,7 +162,16 @@ th{background:var(--navy);color:#fff}
 document.getElementById('date').valueAsDate = new Date();
 let records = JSON.parse(localStorage.getItem('sadia_records')||'[]');
 let editingIndex = -1;
-function addMed(n='',d='',dy=''){let div=document.createElement('div');div.className='row3 med-row';div.innerHTML=`<input class="m-name" placeholder="Medicine Name" value="${n}"><input class="m-dose" placeholder="Dose" value="${d}"><input class="m-days" placeholder="Days" value="${dy}">`;document.getElementById('medList').appendChild(div);}
+let doseOptions = ['','1+0+0','0+0+1','1+0+1','1+1+1','1+1+1+1','2+0+0','0+0+2','2+0+2','2+2+2','2+2+2+1','1 Weekly','1 Alternate Days'];
+let daysOptions = ['','1 Day','2 Days','3 Days','4 Days','5 Days','6 Days','7 Days','10 Days','30 Days'];
+function addMed(n='',d='',dy=''){
+  let div=document.createElement('div');div.className='row3 med-row';
+  let doseHtml='<select class="m-dose"><option value="">Select Dose</option>'+doseOptions.filter(x=>x).map(o=>`<option ${o===d?'selected':''}>${o}</option>`).join('')+(d && !doseOptions.includes(d)?`<option selected>${d}</option>`:'')+'</select>';
+  let daysHtml='<select class="m-days"><option value="">Select Days</option>'+daysOptions.filter(x=>x).map(o=>`<option ${o===dy?'selected':''}>${o}</option>`).join('')+(dy && !daysOptions.includes(dy)?`<option selected>${dy}</option>`:'')+'</select>';
+  div.innerHTML=`<input class="m-name" list="medicineList" placeholder="Type 3 letters - e.g. PAN" value="${n}">${doseHtml}${daysHtml}`;
+  document.getElementById('medList').appendChild(div);
+}
+addMed();
 function getForm(){let meds=[];document.querySelectorAll('.med-row').forEach(r=>{let n=r.querySelector('.m-name').value,d=r.querySelector('.m-dose').value,dy=r.querySelector('.m-days').value;if(n)meds.push(n+' - '+d+' - '+dy);});let vitals=[];if(document.getElementById('bp').value)vitals.push('BP: '+document.getElementById('bp').value);if(document.getElementById('spo2').value)vitals.push('SPO2: '+document.getElementById('spo2').value);if(document.getElementById('hr').value)vitals.push('HR: '+document.getElementById('hr').value);if(document.getElementById('temp').value)vitals.push('TEM: '+document.getElementById('temp').value);if(document.getElementById('rbs').value)vitals.push('RBS: '+document.getElementById('rbs').value);if(document.getElementById('weight').value)vitals.push('WEIGHT: '+document.getElementById('weight').value);return{date:document.getElementById('date').value,pid:document.getElementById('pid').value,name:document.getElementById('pname').value,age:document.getElementById('age').value,gender:document.getElementById('gender').value,phone:document.getElementById('phone').value,address:document.getElementById('address').value,complaint:document.getElementById('complaint').value,diagnosis:document.getElementById('diagnosis').value,vitals:vitals.join(' | '),vitalsRaw:{bp:document.getElementById('bp').value,spo2:document.getElementById('spo2').value,hr:document.getElementById('hr').value,temp:document.getElementById('temp').value,rbs:document.getElementById('rbs').value,weight:document.getElementById('weight').value},tests:document.getElementById('tests').value,meds:meds.join(' | '),medsRaw:meds,advice:document.getElementById('advice').value,followup:document.getElementById('followup').value,fees:document.getElementById('fees').value,};}
 function fillPrint(d){document.getElementById('pr-date').innerText=d.date;document.getElementById('pr-pid').innerText=d.pid;document.getElementById('pr-name').innerText=d.name;document.getElementById('pr-age').innerText=d.age+' / '+d.gender;document.getElementById('pr-phone').innerText=d.phone;document.getElementById('pr-address').innerText=d.address;document.getElementById('pr-complaint').innerText=d.complaint;document.getElementById('pr-diagnosis').innerText=d.diagnosis;document.getElementById('pr-vitals').innerText=d.vitals||'';document.getElementById('pr-tests').innerText=d.tests||'';document.getElementById('pr-meds').innerText=d.meds;document.getElementById('pr-advice').innerText=d.advice;document.getElementById('pr-follow').innerText=d.followup;document.getElementById('pr-fees').innerText=d.fees;}
 function saveData(d){if(editingIndex>=0){records[editingIndex]=d;editingIndex=-1;}else{records.unshift(d);}localStorage.setItem('sadia_records',JSON.stringify(records));renderList();}
