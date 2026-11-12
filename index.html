@@ -8,13 +8,12 @@
 *{box-sizing:border-box;font-family:Arial,sans-serif}
 body{margin:0;background:#F2F7FB}
 :root{--red:#D21F2B;--blue:#137AB5;--navy:#0B2C5E}
-header{background:#fff;padding:14px 20px;border-bottom:4px solid var(--red);display:flex;align-items:center;gap:16px}
-.logo-wrap{width:110px;flex-shrink:0;height:100px;overflow:hidden;border-radius:10px}
-.logo-wrap img{width:100%;height:135px;object-fit:cover;object-position:top}
+header{background:#fff;padding:10px 18px;border-bottom:4px solid var(--red);display:flex;align-items:center;gap:16px}
+header img{width:120px;height:auto;flex-shrink:0}
 .head-center{flex:1;text-align:center}
 .head-center h1{margin:0;color:var(--navy);font-size:34px;letter-spacing:1px}
-.head-center p{margin:6px 0 0;color:#333;font-size:14px;font-weight:bold;line-height:1.5}
-.head-spacer{width:110px;flex-shrink:0}
+.head-center p{margin:5px 0 0;color:#333;font-size:14px;font-weight:bold;line-height:1.5}
+.head-spacer{width:120px;flex-shrink:0}
 .container{max-width:1000px;margin:15px auto;padding:0 10px}
 .card{background:#fff;border-radius:14px;padding:16px;margin-bottom:15px;box-shadow:0 3px 12px #0001;border-top:4px solid var(--blue)}
 h2{margin:0 0 12px;color:var(--navy);font-size:19px;border-bottom:2px solid #F0C9CC;padding-bottom:6px}
@@ -37,33 +36,37 @@ th{background:var(--navy);color:#fff}
 .badge{background:#FDE8EA;color:var(--red);padding:4px 10px;border-radius:20px;font-size:12px;font-weight:bold}
 #printArea{display:none}
 @media print{
+  @page{margin:10mm}
   body *{visibility:hidden}
   #printArea,#printArea *{visibility:visible}
-  #printArea{display:block;position:absolute;left:0;top:0;width:100%;padding:20px;background:#fff}
+  #printArea{display:block;position:absolute;left:0;top:0;width:100%;padding:0;background:#fff;font-size:12px;line-height:1.3}
   .no-print{display:none!important}
 }
-.p-head{display:flex;align-items:center;gap:14px;border-bottom:3px solid var(--red);padding-bottom:8px}
-.p-head .logo-wrap{width:80px;height:75px}
-.p-head .logo-wrap img{height:100px}
-.p-head h1{color:var(--navy);margin:0;font-size:28px}
-.p-head p{margin:3px 0 0;font-size:12px;font-weight:bold}
-.p-info{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:12px 0;font-size:14px}
-.p-box{border:1px solid #D9E8F3;padding:10px;border-radius:8px;margin-top:10px;min-height:45px;background:#F8FBFE}
-.p-sign{margin-top:40px;display:flex;justify-content:space-between}
+.p-head{display:flex;align-items:center;gap:12px;border-bottom:3px solid var(--red);padding-bottom:6px}
+.p-head img{width:95px;height:auto;flex-shrink:0}
+.p-head-center{flex:1;text-align:center}
+.p-head-center h1{color:var(--navy);margin:0;font-size:26px;letter-spacing:1px}
+.p-head-center p{margin:2px 0 0;font-size:11px;font-weight:bold;line-height:1.4}
+.p-head-spacer{width:95px;flex-shrink:0}
+.p-info{display:grid;grid-template-columns:1fr 1fr;gap:2px 20px;margin:8px 0;font-size:12px}
+.p-box{border:1px solid #999;padding:6px 8px;border-radius:5px;margin-top:6px;min-height:30px;font-size:12px}
+.p-box-inline{display:flex;gap:6px;align-items:flex-start}
+.p-box-inline b{white-space:nowrap}
+.p-sign{margin-top:28px;display:flex;justify-content:flex-end;text-align:center;font-size:12px}
 @media(max-width:700px){
   header{flex-direction:column;text-align:center}
   .head-spacer{display:none}
   .head-center h1{font-size:26px}
+  header img{width:100px}
   .row,.row3{grid-template-columns:1fr}
   .row6{grid-template-columns:1fr 1fr 1fr}
-  .logo-wrap{width:90px;height:85px}
 }
 </style>
 </head>
 <body>
 
 <header class="no-print">
-<div class="logo-wrap"><img src="logo.jpg" alt="Sadia Clinic Logo"></div>
+<img src="logo.jpg" alt="Sadia Clinic Logo">
 <div class="head-center">
 <h1>SADIA CLINIC</h1>
 <p>Address: Shop No.1, Plot No.433, Sector C, Mariam Masjid Road,<br>Eidgah Chowk, Manzoor Colony, Karachi.</p>
@@ -92,7 +95,6 @@ th{background:var(--navy);color:#fff}
 <div><label>Complaint / History</label><textarea id="complaint" rows="3" placeholder="e.g. Fever, Cough, Pain..."></textarea></div>
 <div><label>Diagnosis</label><textarea id="diagnosis" rows="3" placeholder="Enter Diagnosis..."></textarea></div>
 </div>
-
 <label>Vitals</label>
 <div class="row6">
 <div><input type="text" id="bp" placeholder="BP:"></div>
@@ -102,10 +104,8 @@ th{background:var(--navy);color:#fff}
 <div><input type="text" id="rbs" placeholder="RBS:"></div>
 <div><input type="text" id="weight" placeholder="WEIGHT:"></div>
 </div>
-
 <label>Test Results</label>
 <textarea id="tests" rows="2" placeholder="e.g. HB: 12, TLC: 12000, PLT: 250,000"></textarea>
-
 <h3 style="margin:15px 0 0;color:var(--navy);font-size:16px">💊 Medicines</h3>
 <div id="medList"><div class="row3 med-row"><input class="m-name" placeholder="Medicine Name"><input class="m-dose" placeholder="Dose - 1+1"><input class="m-days" placeholder="Days"></div></div>
 <button class="btn-grey" style="margin-top:8px" onclick="addMed()">+ Add Medicine</button>
@@ -132,19 +132,19 @@ th{background:var(--navy);color:#fff}
 
 <div id="printArea">
 <div class="p-head">
-<div class="logo-wrap"><img src="logo.jpg"></div>
-<div><h1>SADIA CLINIC</h1><p>Address: Shop No.1, Plot No.433, Sector C, Mariam Masjid Road, Eidgah Chowk, Manzoor Colony, Karachi.</p></div>
+<img src="logo.jpg">
+<div class="p-head-center"><h1>SADIA CLINIC</h1><p>Address: Shop No.1, Plot No.433, Sector C, Mariam Masjid Road, Eidgah Chowk, Manzoor Colony, Karachi.</p></div>
+<div class="p-head-spacer"></div>
 </div>
 <div class="p-info"><div><b>Date:</b> <span id="pr-date"></span></div><div><b>Patient ID:</b> <span id="pr-pid"></span></div><div><b>Name:</b> <span id="pr-name"></span></div><div><b>Age / Gender:</b> <span id="pr-age"></span></div><div><b>Phone:</b> <span id="pr-phone"></span></div><div><b>Address:</b> <span id="pr-address"></span></div></div>
 <div class="p-box"><b>Complaint:</b><br><span id="pr-complaint"></span></div>
-<div class="p-box"><b>Diagnosis:</b><br><span id="pr-diagnosis"></span></div>
-<div class="p-box"><b>Vitals:</b> <span id="pr-vitals"></span></div>
-<div class="p-box"><b>Test Results:</b><br><span id="pr-tests"></span></div>
+<div class="p-box p-box-inline"><b>Diagnosis:</b> <span id="pr-diagnosis"></span></div>
+<div class="p-box p-box-inline"><b>Vitals:</b> <span id="pr-vitals"></span></div>
+<div class="p-box p-box-inline"><b>Test Results:</b> <span id="pr-tests"></span></div>
 <div class="p-box"><b>Rx - Medicines:</b><br><span id="pr-meds"></span></div>
 <div class="p-box"><b>Advice:</b><br><span id="pr-advice"></span></div>
-<div style="margin-top:10px"><b>Follow-up:</b> <span id="pr-follow"></span> &nbsp; | &nbsp; <b>Fees:</b> Rs. <span id="pr-fees"></span></div>
-<div class="p-sign"><span>Patient Signature: ___________</span><span><b>Dr. Zeeshan Mughal</b><br>Signature: ___________</span></div>
-<p style="text-align:center;font-size:11px;margin-top:20px">Thank You! • Sadia Clinic Karachi</p>
+<div style="margin-top:8px;font-size:12px"><b>Follow-up:</b> <span id="pr-follow"></span> &nbsp; | &nbsp; <b>Fees:</b> Rs. <span id="pr-fees"></span></div>
+<div class="p-sign"><div><b>DR. MUHAMMAD ZEESHAN</b><br>Signature: ___________</div></div>
 </div>
 
 <script>
@@ -160,15 +160,7 @@ function saveAndPrint(){let d=getForm();if(!d.name){alert('Please enter Patient 
 function clearForm(){editingIndex=-1;document.querySelectorAll('input[type=text],input[type=number],textarea').forEach(e=>e.value='');document.getElementById('date').valueAsDate=new Date();document.getElementById('medList').innerHTML='';addMed();}
 function renderList(){let q=(document.getElementById('searchBox').value||'').toLowerCase();let tb=document.getElementById('recordTable');tb.innerHTML='';let filtered=records.filter(r=>(r.name+' '+r.phone+' '+r.diagnosis).toLowerCase().includes(q));document.getElementById('totalCount').innerText=records.length+' Records';filtered.forEach((r)=>{let idx=records.indexOf(r);tb.innerHTML+=`<tr><td>${r.date}</td><td><b>${r.name}</b><br><small>${r.age} / ${r.gender}</small></td><td>${r.phone}</td><td>${r.diagnosis}</td><td>${r.fees}</td><td><button class="btn-blue" onclick="viewRec(${idx})">Print</button> <button class="btn-green" onclick="editRec(${idx})">Edit</button> <button class="btn-red" onclick="delRec(${idx})">Del</button></td></tr>`;});}
 function viewRec(i){fillPrint(records[i]);window.print();}
-function editRec(i){
-  let r=records[i]; editingIndex=i;
-  document.getElementById('date').value=r.date;document.getElementById('pid').value=r.pid||'';document.getElementById('pname').value=r.name;document.getElementById('fname').value=r.fname||'';document.getElementById('age').value=r.age||'';document.getElementById('gender').value=r.gender||'Male';document.getElementById('phone').value=r.phone||'';document.getElementById('address').value=r.address||'';document.getElementById('complaint').value=r.complaint||'';document.getElementById('diagnosis').value=r.diagnosis||'';document.getElementById('tests').value=r.tests||'';document.getElementById('advice').value=r.advice||'';document.getElementById('followup').value=r.followup||'';document.getElementById('fees').value=r.fees||'';
-  if(r.vitalsRaw){document.getElementById('bp').value=r.vitalsRaw.bp||'';document.getElementById('spo2').value=r.vitalsRaw.spo2||'';document.getElementById('hr').value=r.vitalsRaw.hr||'';document.getElementById('temp').value=r.vitalsRaw.temp||'';document.getElementById('rbs').value=r.vitalsRaw.rbs||'';document.getElementById('weight').value=r.vitalsRaw.weight||'';}
-  document.getElementById('medList').innerHTML='';
-  if(r.medsRaw && r.medsRaw.length){r.medsRaw.forEach(m=>{let parts=m.split(' - ');addMed(parts[0]||'',parts[1]||'',parts[2]||'');});}else{addMed();}
-  window.scrollTo({top:0,behavior:'smooth'});
-  alert('Now you can Edit this record and press Save. It will update the same record.');
-}
+function editRec(i){let r=records[i];editingIndex=i;document.getElementById('date').value=r.date;document.getElementById('pid').value=r.pid||'';document.getElementById('pname').value=r.name;document.getElementById('fname').value=r.fname||'';document.getElementById('age').value=r.age||'';document.getElementById('gender').value=r.gender||'Male';document.getElementById('phone').value=r.phone||'';document.getElementById('address').value=r.address||'';document.getElementById('complaint').value=r.complaint||'';document.getElementById('diagnosis').value=r.diagnosis||'';document.getElementById('tests').value=r.tests||'';document.getElementById('advice').value=r.advice||'';document.getElementById('followup').value=r.followup||'';document.getElementById('fees').value=r.fees||'';if(r.vitalsRaw){document.getElementById('bp').value=r.vitalsRaw.bp||'';document.getElementById('spo2').value=r.vitalsRaw.spo2||'';document.getElementById('hr').value=r.vitalsRaw.hr||'';document.getElementById('temp').value=r.vitalsRaw.temp||'';document.getElementById('rbs').value=r.vitalsRaw.rbs||'';document.getElementById('weight').value=r.vitalsRaw.weight||'';}document.getElementById('medList').innerHTML='';if(r.medsRaw && r.medsRaw.length){r.medsRaw.forEach(m=>{let parts=m.split(' - ');addMed(parts[0]||'',parts[1]||'',parts[2]||'');});}else{addMed();}window.scrollTo({top:0,behavior:'smooth'});alert('Now you can Edit this record and press Save. It will update the same record.');}
 function delRec(i){if(confirm('Delete this record?')){records.splice(i,1);localStorage.setItem('sadia_records',JSON.stringify(records));renderList();}}
 function deleteAll(){if(confirm('Delete all data?')){records=[];localStorage.removeItem('sadia_records');renderList();}}
 function exportCSV(){let csv='Date,ID,Name,Age,Gender,Phone,Diagnosis,Vitals,Tests,Medicines,Fees,Followup\n';records.forEach(r=>{csv+=`"${r.date}","${r.pid}","${r.name}","${r.age}","${r.gender}","${r.phone}","${r.diagnosis}","${r.vitals}","${r.tests}","${r.meds}","${r.fees}","${r.followup}"\n`});let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='sadia-clinic-records.csv';a.click();}
