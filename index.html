@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sadia Clinic - Prescription & Patient Record</title>
+<style>
+*{box-sizing:border-box;font-family:Arial,sans-serif}
+body{margin:0;background:#eef2f7}
+header{background:#0b6e4f;color:#fff;padding:15px;text-align:center}
+header h1{margin:0;font-size:24px}
+header p{margin:5px 0 0;font-size:13px}
+.container{max-width:1000px;margin:15px auto;padding:0 10px}
+.card{background:#fff;border-radius:10px;padding:15px;margin-bottom:15px;box-shadow:0 2px 8px #0001}
+h2{margin:0 0 12px;color:#0b6e4f;font-size:19px}
+label{font-weight:bold;font-size:13px;display:block;margin-top:10px}
+input,select,textarea{width:100%;padding:10px;border:1px solid #ccc;border-radius:7px;margin-top:4px;font-size:14px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+button{border:0;padding:11px 16px;border-radius:8px;font-weight:bold;cursor:pointer;font-size:14px}
+.btn-green{background:#0b6e4f;color:#fff}
+.btn-blue{background:#2563eb;color:#fff}
+.btn-orange{background:#f59e0b;color:#fff}
+.btn-red{background:#dc2626;color:#fff}
+.btn-grey{background:#e5e7eb}
+.flex{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}
+th,td{border:1px solid #ddd;padding:8px;text-align:left}
+th{background:#0b6e4f;color:#fff}
+.search{margin-bottom:10px}
+.badge{background:#dcfce7;color:#166534;padding:4px 8px;border-radius:20px;font-size:12px}
+/* Print Only */
+#printArea{display:none}
+@media print{
+  body *{visibility:hidden}
+  #printArea,#printArea *{visibility:visible}
+  #printArea{display:block;position:absolute;left:0;top:0;width:100%;padding:20px}
+  .no-print{display:none!important}
+}
+#printArea{font-family:Arial}
+.p-head{text-align:center;border-bottom:3px solid #0b6e4f;padding-bottom:8px}
+.p-head h1{color:#0b6e4f;margin:0}
+.p-head p{margin:2px;font-size:13px}
+.p-info{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:12px 0;font-size:14px}
+.p-box{border:1px solid #ccc;padding:10px;border-radius:8px;margin-top:10px;min-height:60px}
+.p-sign{margin-top:40px;display:flex;justify-content:space-between}
+@media(max-width:600px){.row,.row3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="no-print">
+<h1>🌿 SADIA CLINIC</h1>
+<p>Prescription & Patient Record System | Dr. Zeeshan Mughal | Karachi | 0334-1216951</p>
+</header>
+
+<div class="container no-print">
+
+<div class="card">
+<h2>📝 New Prescription</h2>
+
+<div class="row">
+<div><label>Date</label><input type="date" id="date"></div>
+<div><label>Patient ID / Token No.</label><input type="text" id="pid" placeholder="e.g. 101"></div>
+</div>
+
+<div class="row">
+<div><label>Patient Name *</label><input type="text" id="pname" placeholder="Patient ka naam"></div>
+<div><label>Father / Husband Name</label><input type="text" id="fname" placeholder="Walid / Shohar ka naam"></div>
+</div>
+
+<div class="row3">
+<div><label>Age</label><input type="number" id="age" placeholder="Age"></div>
+<div><label>Gender</label>
+<select id="gender"><option>Male</option><option>Female</option><option>Child</option></select></div>
+<div><label>Phone</label><input type="text" id="phone" placeholder="03xx-xxxxxxx"></div>
+</div>
+
+<label>Address</label><input type="text" id="address" placeholder="Address">
+
+<div class="row">
+<div><label>Complaint / History</label><textarea id="complaint" rows="3" placeholder="Bukhar, khansi, dard..."></textarea></div>
+<div><label>Diagnosis</label><textarea id="diagnosis" rows="3" placeholder="Diagnosis likhein..."></textarea></div>
+</div>
+
+<label>BP / Sugar / Temp / Weight (Optional)</label>
+<input type="text" id="vitals" placeholder="e.g. BP 120/80, Sugar 110, Temp 100F, Weight 65kg">
+
+<h3 style="margin:15px 0 0;color:#0b6e4f;font-size:16px">💊 Medicines</h3>
+<div id="medList">
+<div class="row3 med-row">
+<input class="m-name" placeholder="Dawa ka naam">
+<input class="m-dose" placeholder="Dose - 1+1, 1+0+1">
+<input class="m-days" placeholder="Kitne din - 5 din">
+</div>
+</div>
+<button class="btn-grey" style="margin-top:8px" onclick="addMed()">+ Dawa Add Karein</button>
+
+<label>Advice</label><textarea id="advice" rows="2" placeholder="Aaram karein, pani zyada piyein..."></textarea>
+
+<div class="row">
+<div><label>Follow-up Date</label><input type="date" id="followup"></div>
+<div><label>Fees (Rs.)</label><input type="number" id="fees" placeholder="500"></div>
+</div>
+
+<div class="flex">
+<button class="btn-green" onclick="saveAndPrint()">💾 Save + Print Prescription</button>
+<button class="btn-blue" onclick="saveOnly()">💾 Sirf Save Karein</button>
+<button class="btn-orange" onclick="clearForm()">Clear Form</button>
+</div>
+</div>
+
+<div class="card">
+<h2>📂 Patient Records <span class="badge" id="totalCount">0 Records</span></h2>
+<input class="search" type="text" id="searchBox" placeholder="🔍 Naam, phone ya diagnosis se search karein..." onkeyup="renderList()">
+<div style="overflow-x:auto">
+<table>
+<thead><tr><th>Date</th><th>Patient</th><th>Phone</th><th>Diagnosis</th><th>Fees</th><th>Action</th></tr></thead>
+<tbody id="recordTable"></tbody>
+</table>
+</div>
+<div class="flex">
+<button class="btn-blue" onclick="exportCSV()">⬇️ Excel / CSV Download</button>
+<button class="btn-red" onclick="deleteAll()">🗑️ Saara Data Delete</button>
+</div>
+<p style="font-size:12px;color:#666">Note: Data isi mobile / computer ke browser me save hota hai. Doosre mobile par dekhne ke liye CSV download karke rakhein.</p>
+</div>
+
+</div>
+
+<!-- PRINT AREA -->
+<div id="printArea">
+<div class="p-head">
+<h1>🌿 SADIA CLINIC</h1>
+<p>Dr. Zeeshan Mughal | General Physician | Karachi</p>
+<p>Phone: 0334-1216951 | Timing: Subah 10 - Raat 10</p>
+</div>
+<div class="p-info">
+<div><b>Date:</b> <span id="pr-date"></span></div>
+<div><b>Patient ID:</b> <span id="pr-pid"></span></div>
+<div><b>Name:</b> <span id="pr-name"></span></div>
+<div><b>Age / Gender:</b> <span id="pr-age"></span></div>
+<div><b>Phone:</b> <span id="pr-phone"></span></div>
+<div><b>Address:</b> <span id="pr-address"></span></div>
+</div>
+<div class="p-box"><b>Complaint:</b><br><span id="pr-complaint"></span></div>
+<div class="p-box"><b>Diagnosis:</b><br><span id="pr-diagnosis"></span></div>
+<div class="p-box"><b>Vitals:</b> <span id="pr-vitals"></span></div>
+<div class="p-box"><b>Rx - Medicines:</b><br><span id="pr-meds"></span></div>
+<div class="p-box"><b>Advice:</b><br><span id="pr-advice"></span></div>
+<div style="margin-top:10px"><b>Follow-up:</b> <span id="pr-follow"></span> &nbsp; | &nbsp; <b>Fees:</b> Rs. <span id="pr-fees"></span></div>
+<div class="p-sign"><span>Patient Signature: ___________</span><span><b>Dr. Zeeshan Mughal</b><br>Signature: ___________</span></div>
+<p style="text-align:center;font-size:11px;margin-top:20px">Shukriya! Allah Shifa De. • Sadia Clinic Karachi</p>
+</div>
+
+<script>
+document.getElementById('date').valueAsDate = new Date();
+let records = JSON.parse(localStorage.getItem('sadia_records')||'[]');
+
+function addMed(){
+  let div=document.createElement('div');
+  div.className='row3 med-row';
+  div.innerHTML='<input class="m-name" placeholder="Dawa ka naam"><input class="m-dose" placeholder="Dose"><input class="m-days" placeholder="Kitne din">';
+  document.getElementById('medList').appendChild(div);
+}
+function getForm(){
+  let meds=[];
+  document.querySelectorAll('.med-row').forEach(r=>{
+    let n=r.querySelector('.m-name').value, d=r.querySelector('.m-dose').value, dy=r.querySelector('.m-days').value;
+    if(n) meds.push(n+' - '+d+' - '+dy);
+  });
+  return {
+    date:document.getElementById('date').value,
+    pid:document.getElementById('pid').value,
+    name:document.getElementById('pname').value,
+    fname:document.getElementById('fname').value,
+    age:document.getElementById('age').value,
+    gender:document.getElementById('gender').value,
+    phone:document.getElementById('phone').value,
+    address:document.getElementById('address').value,
+    complaint:document.getElementById('complaint').value,
+    diagnosis:document.getElementById('diagnosis').value,
+    vitals:document.getElementById('vitals').value,
+    meds:meds.join(' | '),
+    advice:document.getElementById('advice').value,
+    followup:document.getElementById('followup').value,
+    fees:document.getElementById('fees').value,
+  };
+}
+function fillPrint(d){
+  document.getElementById('pr-date').innerText=d.date;
+  document.getElementById('pr-pid').innerText=d.pid;
+  document.getElementById('pr-name').innerText=d.name+' ('+d.fname+')';
+  document.getElementById('pr-age').innerText=d.age+' / '+d.gender;
+  document.getElementById('pr-phone').innerText=d.phone;
+  document.getElementById('pr-address').innerText=d.address;
+  document.getElementById('pr-complaint').innerText=d.complaint;
+  document.getElementById('pr-diagnosis').innerText=d.diagnosis;
+  document.getElementById('pr-vitals').innerText=d.vitals;
+  document.getElementById('pr-meds').innerText=d.meds;
+  document.getElementById('pr-advice').innerText=d.advice;
+  document.getElementById('pr-follow').innerText=d.followup;
+  document.getElementById('pr-fees').innerText=d.fees;
+}
+function saveOnly(){
+  let d=getForm();
+  if(!d.name){alert('Patient ka naam likhein');return;}
+  records.unshift(d);
+  localStorage.setItem('sadia_records',JSON.stringify(records));
+  renderList(); alert('Save ho gaya ✅');
+}
+function saveAndPrint(){
+  let d=getForm();
+  if(!d.name){alert('Patient ka naam likhein');return;}
+  records.unshift(d);
+  localStorage.setItem('sadia_records',JSON.stringify(records));
+  renderList(); fillPrint(d); window.print();
+}
+function clearForm(){
+  document.querySelectorAll('input[type=text],input[type=number],textarea').forEach(e=>e.value='');
+  document.getElementById('date').valueAsDate=new Date();
+}
+function renderList(){
+  let q=(document.getElementById('searchBox').value||'').toLowerCase();
+  let tb=document.getElementById('recordTable'); tb.innerHTML='';
+  let filtered=records.filter(r=>(r.name+' '+r.phone+' '+r.diagnosis).toLowerCase().includes(q));
+  document.getElementById('totalCount').innerText=records.length+' Records';
+  filtered.forEach((r,i)=>{
+    tb.innerHTML+=`<tr><td>${r.date}</td><td><b>${r.name}</b><br><small>${r.age} / ${r.gender}</small></td><td>${r.phone}</td><td>${r.diagnosis}</td><td>${r.fees}</td><td><button class="btn-blue" onclick="viewRec(${records.indexOf(r)})">Print</button> <button class="btn-red" onclick="delRec(${records.indexOf(r)})">Del</button></td></tr>`;
+  });
+}
+function viewRec(i){ fillPrint(records[i]); window.print(); }
+function delRec(i){ if(confirm('Delete karein?')){records.splice(i,1);localStorage.setItem('sadia_records',JSON.stringify(records));renderList();} }
+function deleteAll(){ if(confirm('Saara data delete ho jayega?')){records=[];localStorage.removeItem('sadia_records');renderList();} }
+function exportCSV(){
+  let csv='Date,ID,Name,Age,Gender,Phone,Diagnosis,Medicines,Fees,Followup\n';
+  records.forEach(r=>{csv+=`"${r.date}","${r.pid}","${r.name}","${r.age}","${r.gender}","${r.phone}","${r.diagnosis}","${r.meds}","${r.fees}","${r.followup}"\n`});
+  let a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download='sadia-clinic-records.csv'; a.click();
+}
+renderList();
+</script>
+</body>
+</html>
