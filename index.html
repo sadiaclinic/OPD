@@ -56,11 +56,12 @@ th{background:var(--navy);color:#fff}
 .p-head-center h1{color:var(--navy);margin:0;font-size:34px;letter-spacing:1px;font-weight:900;line-height:1}
 .p-head-center p{margin:1px 0 0;font-size:11px;font-weight:bold;line-height:1.3}
 .p-head-spacer{width:60px;flex-shrink:0}
+.p-notvalid{text-align:center;font-weight:900;font-size:12px;margin:4px 0 0;color:#000;border-bottom:1px solid #000;padding-bottom:3px}
 .p-info{display:grid;grid-template-columns:1fr 1fr;gap:2px 20px;margin:8px 0;font-size:12px}
 .p-box{border:1px solid #999;padding:6px 8px;border-radius:5px;margin-top:6px;min-height:30px;font-size:12px}
 .p-box-inline{display:flex;gap:6px;align-items:flex-start}
 .p-box-inline b{white-space:nowrap}
-.p-sign{margin-top:28px;display:flex;justify-content:flex-end;text-align:center;font-size:12px}
+.p-sign{margin-top:38px;display:flex;justify-content:flex-end;text-align:center;font-size:12px;line-height:1.5}
 @media(max-width:700px){
   header img{width:55px}
   .head-spacer{width:55px}
@@ -73,7 +74,6 @@ th{background:var(--navy);color:#fff}
 </head>
 <body>
 
-<!-- PASSWORD SCREEN -->
 <div id="loginScreen">
   <div class="login-box">
     <div style="font-size:40px">🏥</div>
@@ -123,8 +123,8 @@ th{background:var(--navy);color:#fff}
 </div>
 <label>Address</label><input type="text" id="address" placeholder="Enter Address">
 <div class="row">
-<div><label>Complaint / History</label><textarea id="complaint" rows="3" list="complaintList" placeholder="Type 2-3 letters, e.g. FE..."></textarea><p class="hint">Type 2-3 letters, list will open - select from list</p></div>
-<div><label>Diagnosis</label><textarea id="diagnosis" rows="3" list="diagnosisList" placeholder="Type 2-3 letters, e.g. UR..."></textarea><p class="hint">Type 2-3 letters, list will open - select from list</p></div>
+<div><label>Complaint / History</label><input type="text" id="complaint" list="complaintList" placeholder="Type 2-3 letters, e.g. FE..." autocomplete="off"><p class="hint">Type 2-3 letters, list will open - select from list</p></div>
+<div><label>Diagnosis</label><input type="text" id="diagnosis" list="diagnosisList" placeholder="Type 2-3 letters, e.g. UR..." autocomplete="off"><p class="hint">Type 2-3 letters, list will open - select from list</p></div>
 </div>
 <label>Vitals</label>
 <div class="row6">
@@ -135,6 +135,7 @@ th{background:var(--navy);color:#fff}
 <div><input type="text" id="rbs" placeholder="RBS:"></div>
 <div><input type="text" id="weight" placeholder="WEIGHT:"></div>
 </div>
+<p class="hint">Sirf number likhen, Print me unit khud lag jayega - BP mmHg, SPO2 %, HR /M, TEM °F, RBS mg/dl, WEIGHT KG</p>
 <label>Test Results</label>
 <textarea id="tests" rows="2" placeholder="e.g. HB: 12, TLC: 12000, PLT: 250,000"></textarea>
 <h3 style="margin:15px 0 0;color:var(--navy);font-size:16px">Medicines</h3>
@@ -157,12 +158,11 @@ th{background:var(--navy);color:#fff}
 <div class="card">
 <h2>Patient Records <span class="badge" id="totalCount">0 Records</span></h2>
 <input type="text" id="searchBox" placeholder="Search by Name, Phone or Diagnosis..." onkeyup="renderList()" style="margin-bottom:10px">
-<div style="overflow-x:auto"><table><thead><tr><th>Date</th><th>Patient</th><th>Phone</th><th>Diagnosis</th><th>Fees</th><th>Action</th></tr></thead><tbody id="recordTable"></tbody></table></div>
+<div style="overflow-x:auto"><table><thead><tr><th>Date</th><th>Patient</th><th>Diagnosis</th><th>Phone</th><th>Fees</th><th>Action</th></tr></thead><tbody id="recordTable"></tbody></table></div>
 <div class="flex"><button class="btn-navy" onclick="exportCSV()">Excel / CSV Download</button><button class="btn-red" onclick="deleteAll()">Delete All Data</button></div>
 <p style="font-size:12px;color:#666">Data is saved in this mobile / computer browser. It works offline also. When online, it will auto sync to Drive.</p>
 </div>
 
-<!-- BOTTOM - ONLY 2 DRIVE BUTTONS -->
 <div class="card" style="border-top-color:#15803d;text-align:center">
 <h2 style="text-align:center">Cloud Backup</h2>
 <div class="flex" style="justify-content:center">
@@ -180,6 +180,7 @@ th{background:var(--navy);color:#fff}
 <div class="p-head-center"><h1>SADIA CLINIC</h1><p>Address: Shop No.1, Plot No.433, Sector C, Mariam Masjid Road, Eidgah Chowk, Manzoor Colony, Karachi.</p></div>
 <div class="p-head-spacer"></div>
 </div>
+<div class="p-notvalid">Not Valid For Medicolegal & Court Purpose</div>
 <div class="p-info"><div><b>Date:</b> <span id="pr-date"></span></div><div><b>Patient ID:</b> <span id="pr-pid"></span></div><div><b>Name:</b> <span id="pr-name"></span></div><div><b>Age / Gender:</b> <span id="pr-age"></span></div><div><b>Phone:</b> <span id="pr-phone"></span></div><div><b>Address:</b> <span id="pr-address"></span></div></div>
 <div class="p-box"><b>Complaint:</b><br><span id="pr-complaint"></span></div>
 <div class="p-box p-box-inline"><b>Diagnosis:</b> <span id="pr-diagnosis"></span></div>
@@ -188,29 +189,22 @@ th{background:var(--navy);color:#fff}
 <div class="p-box"><b>Rx - Medicines:</b><br><span id="pr-meds"></span></div>
 <div class="p-box"><b>Advice:</b><br><span id="pr-advice"></span></div>
 <div style="margin-top:8px;font-size:12px"><b>Follow-up:</b> <span id="pr-follow"></span> &nbsp; | &nbsp; <b>Fees:</b> Rs. <span id="pr-fees"></span></div>
-<div class="p-sign"><div><b>DR. MUHAMMAD ZEESHAN</b><br>Signature: ___________</div></div>
+<div class="p-sign"><div><b>DR. MUHAMMAD ZEESHAN</b><br>MBBS, RMP (General Physician)<br><br>Signature: ___________</div></div>
 </div>
 
 <script src="https://apis.google.com/js/api.js"></script>
 <script src="https://accounts.google.com/gsi/client"></script>
 <script>
-// ===== HIDDEN CLIENT ID - NOT SHOWN ON DISPLAY =====
 const FIXED_CLIENT_ID = "16719543008-9l5mdveafjk4suctoc82akfvtqlbtg33.apps.googleusercontent.com";
-
-// ===== 1. PASSWORD =====
 function checkPass(){
   if(document.getElementById('loginPass').value==='2201'){
     sessionStorage.setItem('sadia_login','yes');
     document.getElementById('loginScreen').style.display='none';
-  } else {
-    document.getElementById('loginError').style.display='block';
-  }
+  } else { document.getElementById('loginError').style.display='block'; }
 }
 function logout(){ sessionStorage.removeItem('sadia_login'); location.reload(); }
 if(sessionStorage.getItem('sadia_login')==='yes'){ document.getElementById('loginScreen').style.display='none'; }
 document.getElementById('loginPass').addEventListener('keydown',e=>{ if(e.key==='Enter') checkPass(); });
-
-// ===== 2. OFFLINE / ONLINE + AUTO SYNC =====
 function updateStatus(){
   let bar=document.getElementById('statusBar');
   if(navigator.onLine){ bar.className='online'; bar.innerText='Online - Auto Save ON'; autoSync(); }
@@ -219,8 +213,6 @@ function updateStatus(){
 window.addEventListener('online',updateStatus);
 window.addEventListener('offline',updateStatus);
 function autoSync(){ if(driveToken && navigator.onLine){ syncToDrive(false); } }
-
-// ===== 3. GOOGLE DRIVE - AUTO SYNC =====
 let driveToken=null;
 function connectDrive(){
   let client = google.accounts.oauth2.initTokenClient({
@@ -252,8 +244,6 @@ async function syncToDrive(showMsg){
     document.getElementById('driveStatus').innerText='Drive: Last Sync - '+new Date().toLocaleTimeString();
   }catch(e){ if(showMsg) alert('Drive Sync Error - Please Press Connect Google Drive Again'); }
 }
-
-// ===== MAIN APP =====
 document.getElementById('date').valueAsDate = new Date();
 let records = JSON.parse(localStorage.getItem('sadia_records')||'[]');
 let editingIndex = -1;
@@ -267,7 +257,29 @@ function addMed(n='',d='',dy=''){
   document.getElementById('medList').appendChild(div);
 }
 addMed();
-function getForm(){let meds=[];document.querySelectorAll('.med-row').forEach(r=>{let n=r.querySelector('.m-name').value,d=r.querySelector('.m-dose').value,dy=r.querySelector('.m-days').value;if(n)meds.push(n+' - '+d+' - '+dy);});let vitals=[];if(document.getElementById('bp').value)vitals.push('BP: '+document.getElementById('bp').value);if(document.getElementById('spo2').value)vitals.push('SPO2: '+document.getElementById('spo2').value);if(document.getElementById('hr').value)vitals.push('HR: '+document.getElementById('hr').value);if(document.getElementById('temp').value)vitals.push('TEM: '+document.getElementById('temp').value);if(document.getElementById('rbs').value)vitals.push('RBS: '+document.getElementById('rbs').value);if(document.getElementById('weight').value)vitals.push('WEIGHT: '+document.getElementById('weight').value);return{date:document.getElementById('date').value,pid:document.getElementById('pid').value,name:document.getElementById('pname').value,age:document.getElementById('age').value,gender:document.getElementById('gender').value,phone:document.getElementById('phone').value,address:document.getElementById('address').value,complaint:document.getElementById('complaint').value,diagnosis:document.getElementById('diagnosis').value,vitals:vitals.join(' | '),vitalsRaw:{bp:document.getElementById('bp').value,spo2:document.getElementById('spo2').value,hr:document.getElementById('hr').value,temp:document.getElementById('temp').value,rbs:document.getElementById('rbs').value,weight:document.getElementById('weight').value},tests:document.getElementById('tests').value,meds:meds.join(' | '),medsRaw:meds,advice:document.getElementById('advice').value,followup:document.getElementById('followup').value,fees:document.getElementById('fees').value,};}
+function withUnit(val, unit){
+  val = (val||'').trim();
+  if(!val) return '';
+  if(val.toLowerCase().includes(unit.toLowerCase().replace('/','')) || val.includes('%') || val.toLowerCase().includes('mmhg') || val.toLowerCase().includes('mg/dl') || val.toLowerCase().includes('kg') || val.includes('°F') || val.includes('F')) return val;
+  return val + ' ' + unit;
+}
+function getForm(){
+  let meds=[];document.querySelectorAll('.med-row').forEach(r=>{let n=r.querySelector('.m-name').value,d=r.querySelector('.m-dose').value,dy=r.querySelector('.m-days').value;if(n)meds.push(n+' - '+d+' - '+dy);});
+  let bpV = withUnit(document.getElementById('bp').value, 'mmHg');
+  let spo2V = withUnit(document.getElementById('spo2').value, '%');
+  let hrV = withUnit(document.getElementById('hr').value, '/M');
+  let tempV = withUnit(document.getElementById('temp').value, '°F');
+  let rbsV = withUnit(document.getElementById('rbs').value, 'mg/dl');
+  let wtV = withUnit(document.getElementById('weight').value, 'KG');
+  let vitals=[];
+  if(bpV) vitals.push('BP: '+bpV);
+  if(spo2V) vitals.push('SPO2: '+spo2V);
+  if(hrV) vitals.push('HR: '+hrV);
+  if(tempV) vitals.push('TEM: '+tempV);
+  if(rbsV) vitals.push('RBS: '+rbsV);
+  if(wtV) vitals.push('WEIGHT: '+wtV);
+  return{date:document.getElementById('date').value,pid:document.getElementById('pid').value,name:document.getElementById('pname').value,age:document.getElementById('age').value,gender:document.getElementById('gender').value,phone:document.getElementById('phone').value,address:document.getElementById('address').value,complaint:document.getElementById('complaint').value,diagnosis:document.getElementById('diagnosis').value,vitals:vitals.join(' | '),vitalsRaw:{bp:document.getElementById('bp').value,spo2:document.getElementById('spo2').value,hr:document.getElementById('hr').value,temp:document.getElementById('temp').value,rbs:document.getElementById('rbs').value,weight:document.getElementById('weight').value},tests:document.getElementById('tests').value,meds:meds.join(' | '),medsRaw:meds,advice:document.getElementById('advice').value,followup:document.getElementById('followup').value,fees:document.getElementById('fees').value,};
+}
 function fillPrint(d){document.getElementById('pr-date').innerText=d.date;document.getElementById('pr-pid').innerText=d.pid;document.getElementById('pr-name').innerText=d.name;document.getElementById('pr-age').innerText=d.age+' / '+d.gender;document.getElementById('pr-phone').innerText=d.phone;document.getElementById('pr-address').innerText=d.address;document.getElementById('pr-complaint').innerText=d.complaint;document.getElementById('pr-diagnosis').innerText=d.diagnosis;document.getElementById('pr-vitals').innerText=d.vitals||'';document.getElementById('pr-tests').innerText=d.tests||'';document.getElementById('pr-meds').innerText=d.meds;document.getElementById('pr-advice').innerText=d.advice;document.getElementById('pr-follow').innerText=d.followup;document.getElementById('pr-fees').innerText=d.fees;}
 function saveData(d){if(editingIndex>=0){records[editingIndex]=d;editingIndex=-1;}else{records.unshift(d);}localStorage.setItem('sadia_records',JSON.stringify(records));renderList();autoSync();}
 function saveOnly(){let d=getForm();if(!d.name){alert('Please enter Patient Name');return;}saveData(d);alert('Saved');clearForm();}
