@@ -35,7 +35,6 @@ th,td{border:1px solid #eee;padding:8px;text-align:left}
 th{background:var(--navy);color:#fff}
 .badge{background:#FDE8EA;color:var(--red);padding:4px 10px;border-radius:20px;font-size:12px;font-weight:bold}
 .hint{font-size:11px;color:#666;margin:2px 0 0}
-/* LOGIN + STATUS */
 #loginScreen{position:fixed;inset:0;background:#0B2C5E;z-index:9999;display:flex;align-items:center;justify-content:center;padding:15px}
 .login-box{background:#fff;width:100%;max-width:380px;border-radius:16px;padding:24px;text-align:center}
 .login-box h1{color:#0B2C5E;margin:0;font-size:32px}
@@ -74,7 +73,7 @@ th{background:var(--navy);color:#fff}
 </head>
 <body>
 
-<!-- ===== PASSWORD SCREEN ===== -->
+<!-- ===== PASSWORD SCREEN - 2201 ===== -->
 <div id="loginScreen">
   <div class="login-box">
     <div style="font-size:40px">🏥</div>
@@ -97,7 +96,6 @@ th{background:var(--navy);color:#fff}
 <div class="head-spacer"></div>
 </header>
 
-<!-- AUTOCOMPLETE LISTS -->
 <datalist id="complaintList">
 <option value="FEVER"></option><option value="FEVER 3 DAYS"></option><option value="FEVER, COUGH"></option><option value="FEVER, HEADACHE"></option><option value="COUGH"></option><option value="DRY COUGH"></option><option value="PRODUCTIVE COUGH"></option><option value="SORE THROAT"></option><option value="HEADACHE"></option><option value="BODY ACHE"></option><option value="JOINT PAIN"></option><option value="BACK PAIN"></option><option value="ABDOMINAL PAIN"></option><option value="STOMACH PAIN"></option><option value="VOMITING"></option><option value="LOOSE MOTION"></option><option value="DIARRHEA"></option><option value="CONSTIPATION"></option><option value="NAUSEA"></option><option value="CHEST PAIN"></option><option value="SHORTNESS OF BREATH"></option><option value="FLU"></option><option value="COLD"></option><option value="RUNNY NOSE"></option><option value="ALLERGY"></option><option value="SKIN RASH"></option><option value="ITCHING"></option><option value="WEAKNESS"></option><option value="DIZZINESS"></option><option value="HIGH BP"></option><option value="SUGAR HIGH"></option><option value="BURNING URINE"></option><option value="EAR PAIN"></option><option value="TOOTH PAIN"></option><option value="EYE REDNESS"></option>
 </datalist>
@@ -112,15 +110,14 @@ th{background:var(--navy);color:#fff}
 <!-- GOOGLE DRIVE CARD -->
 <div class="card" style="border-top-color:#15803d">
 <h2>☁️ Google Drive Backup</h2>
-<p class="hint">Client ID banane ke baad yahan paste karen, phir Connect dabayen. Data Drive me <b>sadia-clinic-backup.json</b> naam se save hoga.</p>
-<label>Google Drive Client ID</label>
-<input type="text" id="driveClientId" placeholder="Paste Client ID here - xxxxx.apps.googleusercontent.com">
+<p class="hint">Client ID pehle se lagi hui hai. Sirf Connect dabayen. Data Drive me <b>sadia-clinic-backup.json</b> naam se save hoga.</p>
+<label>Google Drive Client ID - Fixed ✅</label>
+<input type="text" id="driveClientId" value="16719543008-9l5mdveafjk4suctoc82akfvtqlbtg33.apps.googleusercontent.com" readonly style="background:#F0FDF4">
 <div class="flex">
 <button class="btn-green" onclick="connectDrive()">🔗 Connect Google Drive</button>
 <button class="btn-blue" onclick="syncToDrive(true)">☁️ Abhi Drive Par Save Karo</button>
-<button class="btn-grey" onclick="saveClientId()">💾 Client ID Save Karo</button>
 </div>
-<p class="hint" id="driveStatus">Drive: Not Connected</p>
+<p class="hint" id="driveStatus">Drive: Not Connected - Connect dabayen</p>
 </div>
 
 <div class="card">
@@ -198,7 +195,10 @@ th{background:var(--navy);color:#fff}
 <script src="https://apis.google.com/js/api.js"></script>
 <script src="https://accounts.google.com/gsi/client"></script>
 <script>
-// ===== 1. PASSWORD =====
+// ===== FIXED CLIENT ID =====
+const FIXED_CLIENT_ID = "16719543008-9l5mdveafjk4suctoc82akfvtqlbtg33.apps.googleusercontent.com";
+
+// ===== 1. PASSWORD - 2201 =====
 function checkPass(){
   if(document.getElementById('loginPass').value==='2201'){
     sessionStorage.setItem('sadia_login','yes');
@@ -222,23 +222,14 @@ window.addEventListener('offline',updateStatus);
 
 // ===== 3. GOOGLE DRIVE =====
 let driveToken=null;
-function saveClientId(){
-  let id=document.getElementById('driveClientId').value.trim();
-  if(!id){ alert('Pehle Client ID paste karen'); return; }
-  localStorage.setItem('sadia_drive_client_id',id);
-  alert('Client ID Save ho gayi ✅');
-}
-document.getElementById('driveClientId').value = localStorage.getItem('sadia_drive_client_id')||'';
 function connectDrive(){
-  let clientId=document.getElementById('driveClientId').value.trim() || localStorage.getItem('sadia_drive_client_id');
-  if(!clientId){ alert('Pehle Client ID paste karen - upar steps se bana kar layen'); return; }
-  localStorage.setItem('sadia_drive_client_id',clientId);
-  // Google Identity Services - Token
+  let clientId = FIXED_CLIENT_ID;
   let client = google.accounts.oauth2.initTokenClient({
     client_id: clientId,
     scope: 'https://www.googleapis.com/auth/drive.file',
     callback: (resp)=>{
       if(resp.access_token){ driveToken=resp.access_token; document.getElementById('driveStatus').innerText='Drive: Connected ✅ - Ab data auto Drive par save hoga'; syncToDrive(true); }
+      else { document.getElementById('driveStatus').innerText='Drive: Connect nahi hua - dobara try karen'; }
     },
   });
   client.requestAccessToken();
@@ -249,7 +240,6 @@ async function syncToDrive(showMsg){
   try{
     let data = localStorage.getItem('sadia_records')||'[]';
     let fileContent = JSON.stringify({updated:new Date().toISOString(), records: JSON.parse(data)}, null, 2);
-    // Search existing file
     let search = await fetch('https://www.googleapis.com/drive/v3/files?q=name%3D%27sadia-clinic-backup.json%27&fields=files(id)',{headers:{Authorization:'Bearer '+driveToken}});
     let sj = await search.json();
     let metadata = {name:'sadia-clinic-backup.json', mimeType:'application/json'};
