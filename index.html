@@ -35,6 +35,14 @@ th,td{border:1px solid #eee;padding:8px;text-align:left}
 th{background:var(--navy);color:#fff}
 .badge{background:#FDE8EA;color:var(--red);padding:4px 10px;border-radius:20px;font-size:12px;font-weight:bold}
 .hint{font-size:11px;color:#666;margin:2px 0 0}
+/* LOGIN + STATUS */
+#loginScreen{position:fixed;inset:0;background:#0B2C5E;z-index:9999;display:flex;align-items:center;justify-content:center;padding:15px}
+.login-box{background:#fff;width:100%;max-width:380px;border-radius:16px;padding:24px;text-align:center}
+.login-box h1{color:#0B2C5E;margin:0;font-size:32px}
+.login-box p{font-size:13px;color:#666}
+#statusBar{position:sticky;top:0;z-index:99;text-align:center;font-size:12px;font-weight:bold;padding:6px}
+.online{background:#DCFCE7;color:#166534}
+.offline{background:#FEE2E2;color:#991B1B}
 #printArea{display:none}
 @media print{
   @page{margin:10mm}
@@ -66,6 +74,20 @@ th{background:var(--navy);color:#fff}
 </head>
 <body>
 
+<!-- ===== PASSWORD SCREEN ===== -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div style="font-size:40px">🏥</div>
+    <h1>SADIA CLINIC</h1>
+    <p>Doctor Login - Authorized Only</p>
+    <input type="password" id="loginPass" placeholder="Enter Password" style="text-align:center;font-size:18px;letter-spacing:3px">
+    <button class="btn-red" style="width:100%;padding:12px;margin-top:10px;font-size:15px" onclick="checkPass()">🔓 Login</button>
+    <p id="loginError" style="color:red;display:none">Wrong Password !</p>
+  </div>
+</div>
+
+<div id="statusBar" class="online">🟢 Online - Auto Save ON</div>
+
 <header class="no-print">
 <img src="logo.jpg" alt="Sadia Clinic Logo">
 <div class="head-center">
@@ -87,6 +109,20 @@ th{background:var(--navy);color:#fff}
 </datalist>
 
 <div class="container no-print">
+<!-- GOOGLE DRIVE CARD -->
+<div class="card" style="border-top-color:#15803d">
+<h2>☁️ Google Drive Backup</h2>
+<p class="hint">Client ID banane ke baad yahan paste karen, phir Connect dabayen. Data Drive me <b>sadia-clinic-backup.json</b> naam se save hoga.</p>
+<label>Google Drive Client ID</label>
+<input type="text" id="driveClientId" placeholder="Paste Client ID here - xxxxx.apps.googleusercontent.com">
+<div class="flex">
+<button class="btn-green" onclick="connectDrive()">🔗 Connect Google Drive</button>
+<button class="btn-blue" onclick="syncToDrive(true)">☁️ Abhi Drive Par Save Karo</button>
+<button class="btn-grey" onclick="saveClientId()">💾 Client ID Save Karo</button>
+</div>
+<p class="hint" id="driveStatus">Drive: Not Connected</p>
+</div>
+
 <div class="card">
 <h2>📝 New Prescription</h2>
 <div class="row">
@@ -102,8 +138,8 @@ th{background:var(--navy);color:#fff}
 </div>
 <label>Address</label><input type="text" id="address" placeholder="Enter Address">
 <div class="row">
-<div><label>Complaint / History</label><input type="text" id="complaint" list="complaintList" placeholder="Type 2-3 letters, e.g. FE..."><p class="hint">Type 2-3 letters, list khul jayegi - select kar len</p></div>
-<div><label>Diagnosis</label><input type="text" id="diagnosis" list="diagnosisList" placeholder="Type 2-3 letters, e.g. UR..."><p class="hint">Type 2-3 letters, list khul jayegi - select kar len</p></div>
+<div><label>Complaint / History</label><textarea id="complaint" rows="3" list="complaintList" placeholder="Type 2-3 letters, e.g. FE..."></textarea><p class="hint">Type 2-3 letters, list khul jayegi - select kar len</p></div>
+<div><label>Diagnosis</label><textarea id="diagnosis" rows="3" list="diagnosisList" placeholder="Type 2-3 letters, e.g. UR..."></textarea><p class="hint">Type 2-3 letters, list khul jayegi - select kar len</p></div>
 </div>
 <label>Vitals</label>
 <div class="row6">
@@ -129,6 +165,7 @@ th{background:var(--navy);color:#fff}
 <button class="btn-red" onclick="saveAndPrint()">💾 Save + Print Prescription</button>
 <button class="btn-blue" onclick="saveOnly()">💾 Save Only</button>
 <button class="btn-grey" onclick="clearForm()">Clear Form</button>
+<button class="btn-red" onclick="logout()">🔒 Logout</button>
 </div>
 </div>
 
@@ -137,7 +174,7 @@ th{background:var(--navy);color:#fff}
 <input type="text" id="searchBox" placeholder="Search by Name, Phone or Diagnosis..." onkeyup="renderList()" style="margin-bottom:10px">
 <div style="overflow-x:auto"><table><thead><tr><th>Date</th><th>Patient</th><th>Phone</th><th>Diagnosis</th><th>Fees</th><th>Action</th></tr></thead><tbody id="recordTable"></tbody></table></div>
 <div class="flex"><button class="btn-navy" onclick="exportCSV()">⬇️ Excel / CSV Download</button><button class="btn-red" onclick="deleteAll()">🗑️ Delete All Data</button></div>
-<p style="font-size:12px;color:#666">Data is saved in this mobile / computer browser.</p>
+<p style="font-size:12px;color:#666">Data is saved in this mobile / computer browser (Offline bhi chalega). Online hone par Drive par auto backup hoga.</p>
 </div>
 </div>
 
@@ -158,7 +195,76 @@ th{background:var(--navy);color:#fff}
 <div class="p-sign"><div><b>DR. MUHAMMAD ZEESHAN</b><br>Signature: ___________</div></div>
 </div>
 
+<script src="https://apis.google.com/js/api.js"></script>
+<script src="https://accounts.google.com/gsi/client"></script>
 <script>
+// ===== 1. PASSWORD =====
+function checkPass(){
+  if(document.getElementById('loginPass').value==='2201'){
+    sessionStorage.setItem('sadia_login','yes');
+    document.getElementById('loginScreen').style.display='none';
+  } else {
+    document.getElementById('loginError').style.display='block';
+  }
+}
+function logout(){ sessionStorage.removeItem('sadia_login'); location.reload(); }
+if(sessionStorage.getItem('sadia_login')==='yes'){ document.getElementById('loginScreen').style.display='none'; }
+document.getElementById('loginPass').addEventListener('keydown',e=>{ if(e.key==='Enter') checkPass(); });
+
+// ===== 2. OFFLINE / ONLINE + AUTO SAVE =====
+function updateStatus(){
+  let bar=document.getElementById('statusBar');
+  if(navigator.onLine){ bar.className='online'; bar.innerText='🟢 Online - Auto Save ON'; syncToDrive(false); }
+  else { bar.className='offline'; bar.innerText='🔴 Offline - Data is phone me save hai, online aate hi Drive par jayega'; }
+}
+window.addEventListener('online',updateStatus);
+window.addEventListener('offline',updateStatus);
+
+// ===== 3. GOOGLE DRIVE =====
+let driveToken=null;
+function saveClientId(){
+  let id=document.getElementById('driveClientId').value.trim();
+  if(!id){ alert('Pehle Client ID paste karen'); return; }
+  localStorage.setItem('sadia_drive_client_id',id);
+  alert('Client ID Save ho gayi ✅');
+}
+document.getElementById('driveClientId').value = localStorage.getItem('sadia_drive_client_id')||'';
+function connectDrive(){
+  let clientId=document.getElementById('driveClientId').value.trim() || localStorage.getItem('sadia_drive_client_id');
+  if(!clientId){ alert('Pehle Client ID paste karen - upar steps se bana kar layen'); return; }
+  localStorage.setItem('sadia_drive_client_id',clientId);
+  // Google Identity Services - Token
+  let client = google.accounts.oauth2.initTokenClient({
+    client_id: clientId,
+    scope: 'https://www.googleapis.com/auth/drive.file',
+    callback: (resp)=>{
+      if(resp.access_token){ driveToken=resp.access_token; document.getElementById('driveStatus').innerText='Drive: Connected ✅ - Ab data auto Drive par save hoga'; syncToDrive(true); }
+    },
+  });
+  client.requestAccessToken();
+}
+async function syncToDrive(showMsg){
+  if(!driveToken) return;
+  if(!navigator.onLine) return;
+  try{
+    let data = localStorage.getItem('sadia_records')||'[]';
+    let fileContent = JSON.stringify({updated:new Date().toISOString(), records: JSON.parse(data)}, null, 2);
+    // Search existing file
+    let search = await fetch('https://www.googleapis.com/drive/v3/files?q=name%3D%27sadia-clinic-backup.json%27&fields=files(id)',{headers:{Authorization:'Bearer '+driveToken}});
+    let sj = await search.json();
+    let metadata = {name:'sadia-clinic-backup.json', mimeType:'application/json'};
+    let form = new FormData();
+    form.append('metadata', new Blob([JSON.stringify(metadata)],{type:'application/json'}));
+    form.append('file', new Blob([fileContent],{type:'application/json'}));
+    let url = 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart';
+    let method='POST';
+    if(sj.files && sj.files.length){ url='https://www.googleapis.com/upload/drive/v3/files/'+sj.files[0].id+'?uploadType=multipart'; method='PATCH'; }
+    await fetch(url,{method:method, headers:{Authorization:'Bearer '+driveToken}, body:form});
+    document.getElementById('driveStatus').innerText='Drive: Last Sync ✅ '+new Date().toLocaleTimeString();
+  }catch(e){ if(showMsg) alert('Drive Sync me error - dobara Connect dabayen'); }
+}
+
+// ===== ORIGINAL APP LOGIC (SAME) =====
 document.getElementById('date').valueAsDate = new Date();
 let records = JSON.parse(localStorage.getItem('sadia_records')||'[]');
 let editingIndex = -1;
@@ -174,17 +280,18 @@ function addMed(n='',d='',dy=''){
 addMed();
 function getForm(){let meds=[];document.querySelectorAll('.med-row').forEach(r=>{let n=r.querySelector('.m-name').value,d=r.querySelector('.m-dose').value,dy=r.querySelector('.m-days').value;if(n)meds.push(n+' - '+d+' - '+dy);});let vitals=[];if(document.getElementById('bp').value)vitals.push('BP: '+document.getElementById('bp').value);if(document.getElementById('spo2').value)vitals.push('SPO2: '+document.getElementById('spo2').value);if(document.getElementById('hr').value)vitals.push('HR: '+document.getElementById('hr').value);if(document.getElementById('temp').value)vitals.push('TEM: '+document.getElementById('temp').value);if(document.getElementById('rbs').value)vitals.push('RBS: '+document.getElementById('rbs').value);if(document.getElementById('weight').value)vitals.push('WEIGHT: '+document.getElementById('weight').value);return{date:document.getElementById('date').value,pid:document.getElementById('pid').value,name:document.getElementById('pname').value,age:document.getElementById('age').value,gender:document.getElementById('gender').value,phone:document.getElementById('phone').value,address:document.getElementById('address').value,complaint:document.getElementById('complaint').value,diagnosis:document.getElementById('diagnosis').value,vitals:vitals.join(' | '),vitalsRaw:{bp:document.getElementById('bp').value,spo2:document.getElementById('spo2').value,hr:document.getElementById('hr').value,temp:document.getElementById('temp').value,rbs:document.getElementById('rbs').value,weight:document.getElementById('weight').value},tests:document.getElementById('tests').value,meds:meds.join(' | '),medsRaw:meds,advice:document.getElementById('advice').value,followup:document.getElementById('followup').value,fees:document.getElementById('fees').value,};}
 function fillPrint(d){document.getElementById('pr-date').innerText=d.date;document.getElementById('pr-pid').innerText=d.pid;document.getElementById('pr-name').innerText=d.name;document.getElementById('pr-age').innerText=d.age+' / '+d.gender;document.getElementById('pr-phone').innerText=d.phone;document.getElementById('pr-address').innerText=d.address;document.getElementById('pr-complaint').innerText=d.complaint;document.getElementById('pr-diagnosis').innerText=d.diagnosis;document.getElementById('pr-vitals').innerText=d.vitals||'';document.getElementById('pr-tests').innerText=d.tests||'';document.getElementById('pr-meds').innerText=d.meds;document.getElementById('pr-advice').innerText=d.advice;document.getElementById('pr-follow').innerText=d.followup;document.getElementById('pr-fees').innerText=d.fees;}
-function saveData(d){if(editingIndex>=0){records[editingIndex]=d;editingIndex=-1;}else{records.unshift(d);}localStorage.setItem('sadia_records',JSON.stringify(records));renderList();}
+function saveData(d){if(editingIndex>=0){records[editingIndex]=d;editingIndex=-1;}else{records.unshift(d);}localStorage.setItem('sadia_records',JSON.stringify(records));renderList();syncToDrive(false);}
 function saveOnly(){let d=getForm();if(!d.name){alert('Please enter Patient Name');return;}saveData(d);alert('Saved ✅');clearForm();}
 function saveAndPrint(){let d=getForm();if(!d.name){alert('Please enter Patient Name');return;}saveData(d);fillPrint(d);window.print();clearForm();}
 function clearForm(){editingIndex=-1;document.querySelectorAll('input[type=text],input[type=number],textarea').forEach(e=>e.value='');document.getElementById('date').valueAsDate=new Date();document.getElementById('medList').innerHTML='';addMed();}
 function renderList(){let q=(document.getElementById('searchBox').value||'').toLowerCase();let tb=document.getElementById('recordTable');tb.innerHTML='';let filtered=records.filter(r=>(r.name+' '+r.phone+' '+r.diagnosis).toLowerCase().includes(q));document.getElementById('totalCount').innerText=records.length+' Records';filtered.forEach((r)=>{let idx=records.indexOf(r);tb.innerHTML+=`<tr><td>${r.date}</td><td><b>${r.name}</b><br><small>${r.age} / ${r.gender}</small></td><td>${r.phone}</td><td>${r.diagnosis}</td><td>${r.fees}</td><td><button class="btn-blue" onclick="viewRec(${idx})">Print</button> <button class="btn-green" onclick="editRec(${idx})">Edit</button> <button class="btn-red" onclick="delRec(${idx})">Del</button></td></tr>`;});}
 function viewRec(i){fillPrint(records[i]);window.print();}
 function editRec(i){let r=records[i];editingIndex=i;document.getElementById('date').value=r.date;document.getElementById('pid').value=r.pid||'';document.getElementById('pname').value=r.name;document.getElementById('age').value=r.age||'';document.getElementById('gender').value=r.gender||'Male';document.getElementById('phone').value=r.phone||'';document.getElementById('address').value=r.address||'';document.getElementById('complaint').value=r.complaint||'';document.getElementById('diagnosis').value=r.diagnosis||'';document.getElementById('tests').value=r.tests||'';document.getElementById('advice').value=r.advice||'';document.getElementById('followup').value=r.followup||'';document.getElementById('fees').value=r.fees||'';if(r.vitalsRaw){document.getElementById('bp').value=r.vitalsRaw.bp||'';document.getElementById('spo2').value=r.vitalsRaw.spo2||'';document.getElementById('hr').value=r.vitalsRaw.hr||'';document.getElementById('temp').value=r.vitalsRaw.temp||'';document.getElementById('rbs').value=r.vitalsRaw.rbs||'';document.getElementById('weight').value=r.vitalsRaw.weight||'';}document.getElementById('medList').innerHTML='';if(r.medsRaw && r.medsRaw.length){r.medsRaw.forEach(m=>{let parts=m.split(' - ');addMed(parts[0]||'',parts[1]||'',parts[2]||'');});}else{addMed();}window.scrollTo({top:0,behavior:'smooth'});alert('Now you can Edit this record and press Save. It will update the same record.');}
-function delRec(i){if(confirm('Delete this record?')){records.splice(i,1);localStorage.setItem('sadia_records',JSON.stringify(records));renderList();}}
+function delRec(i){if(confirm('Delete this record?')){records.splice(i,1);localStorage.setItem('sadia_records',JSON.stringify(records));renderList();syncToDrive(false);}}
 function deleteAll(){if(confirm('Delete all data?')){records=[];localStorage.removeItem('sadia_records');renderList();}}
 function exportCSV(){let csv='Date,ID,Name,Age,Gender,Phone,Diagnosis,Vitals,Tests,Medicines,Fees,Followup\n';records.forEach(r=>{csv+=`"${r.date}","${r.pid}","${r.name}","${r.age}","${r.gender}","${r.phone}","${r.diagnosis}","${r.vitals}","${r.tests}","${r.meds}","${r.fees}","${r.followup}"\n`});let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='sadia-clinic-records.csv';a.click();}
 renderList();
+updateStatus();
 </script>
 </body>
 </html>
