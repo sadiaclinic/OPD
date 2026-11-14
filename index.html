@@ -61,7 +61,10 @@ th{background:var(--navy);color:#fff}
 .p-box{border:1px solid #999;padding:6px 8px;border-radius:5px;margin-top:6px;min-height:30px;font-size:12px}
 .p-box-inline{display:flex;gap:6px;align-items:flex-start}
 .p-box-inline b{white-space:nowrap}
-.p-sign{margin-top:38px;display:flex;justify-content:flex-end;text-align:center;font-size:12px;line-height:1.5}
+.p-sign{margin-top:2px;display:flex;justify-content:flex-end;text-align:center;font-size:12px;line-height:1.1}
+.p-sign img{width:80px;height:32px;object-fit:cover;object-position:center;margin:-2px auto 0;display:block}
+.rx-list{column-count:2;column-gap:18px;margin-top:2px}
+.rx-item{break-inside:avoid;padding:1px 0;font-size:12px;line-height:1.45}
 @media(max-width:700px){
   header img{width:55px}
   .head-spacer{width:55px}
@@ -73,7 +76,6 @@ th{background:var(--navy);color:#fff}
 </style>
 </head>
 <body>
-
 <div id="loginScreen">
   <div class="login-box">
     <div style="font-size:40px">🏥</div>
@@ -84,9 +86,7 @@ th{background:var(--navy);color:#fff}
     <p id="loginError" style="color:red;display:none">Wrong Password !</p>
   </div>
 </div>
-
 <div id="statusBar" class="online">Online - Auto Save ON</div>
-
 <header class="no-print">
 <img src="logo.jpg" alt="Sadia Clinic Logo">
 <div class="head-center">
@@ -95,7 +95,7 @@ th{background:var(--navy);color:#fff}
 </div>
 <div class="head-spacer"></div>
 </header>
-
+<datalist id="pidList"></datalist>
 <datalist id="complaintList">
 <option value="FEVER"></option><option value="FEVER 3 DAYS"></option><option value="FEVER, COUGH"></option><option value="FEVER, HEADACHE"></option><option value="COUGH"></option><option value="DRY COUGH"></option><option value="PRODUCTIVE COUGH"></option><option value="SORE THROAT"></option><option value="HEADACHE"></option><option value="BODY ACHE"></option><option value="JOINT PAIN"></option><option value="BACK PAIN"></option><option value="ABDOMINAL PAIN"></option><option value="STOMACH PAIN"></option><option value="VOMITING"></option><option value="LOOSE MOTION"></option><option value="DIARRHEA"></option><option value="CONSTIPATION"></option><option value="NAUSEA"></option><option value="CHEST PAIN"></option><option value="SHORTNESS OF BREATH"></option><option value="FLU"></option><option value="COLD"></option><option value="RUNNY NOSE"></option><option value="ALLERGY"></option><option value="SKIN RASH"></option><option value="ITCHING"></option><option value="WEAKNESS"></option><option value="DIZZINESS"></option><option value="HIGH BP"></option><option value="SUGAR HIGH"></option><option value="BURNING URINE"></option><option value="EAR PAIN"></option><option value="TOOTH PAIN"></option><option value="EYE REDNESS"></option>
 </datalist>
@@ -103,28 +103,32 @@ th{background:var(--navy);color:#fff}
 <option value="URTI"></option><option value="LRTI"></option><option value="TYPHOID FEVER"></option><option value="MALARIA"></option><option value="DENGUE FEVER"></option><option value="VIRAL FEVER"></option><option value="FLU"></option><option value="ALLERGIC RHINITIS"></option><option value="PHARYNGITIS"></option><option value="TONSILLITIS"></option><option value="BRONCHITIS"></option><option value="PNEUMONIA"></option><option value="ASTHMA"></option><option value="GASTRITIS"></option><option value="ACID REFLUX"></option><option value="GASTROENTERITIS"></option><option value="DIARRHEA"></option><option value="CONSTIPATION"></option><option value="UTI"></option><option value="HYPERTENSION"></option><option value="DIABETES MELLITUS"></option><option value="MIGRAINE"></option><option value="ANEMIA"></option><option value="SKIN ALLERGY"></option><option value="FUNGAL INFECTION"></option><option value="SCABIES"></option><option value="JOINT PAIN"></option><option value="ARTHRITIS"></option><option value="BACK PAIN"></option><option value="VITAMIN D DEFICIENCY"></option><option value="FEVER - UNDER EVALUATION"></option>
 </datalist>
 <datalist id="medicineList">
-<option value="TAB PANADOL 500 MG"></option><option value="TAB PANADOL CF"></option><option value="TAB AUGMENTIN 625 MG"></option><option value="TAB AZOMAX 250 MG"></option><option value="CAP AZOMAX 250 MG"></option><option value="TAB SOFTIN 5 MG"></option><option value="TAB SOFTIN 10 MG"></option><option value="TAB SURBEX Z"></option><option value="TAB CAC 1000 PLUS"></option><option value="TAB NUBEROL FORTE"></option><option value="TAB BRUFEN 400 MG"></option><option value="TAB VOLTRAL 50 MG"></option><option value="TAB DICLORAN 50 MG"></option><option value="TAB MOTILIUM 10 MG"></option><option value="TAB OMEPRAZOLE 20 MG"></option><option value="CAP RISKEK 20 MG"></option><option value="CAP RISKEK 40 MG"></option><option value="TAB FLAGYL 400 MG"></option><option value="TAB ENTAMIZOLE"></option><option value="TAB CIPROXIN 500 MG"></option><option value="TAB CEFSPAN 400 MG"></option><option value="TAB ZINNAT 500 MG"></option><option value="TAB CALAMOX 625 MG"></option><option value="TAB BETNESOL"></option><option value="TAB AVIL 25 MG"></option><option value="TAB CETRIZINE 10 MG"></option><option value="TAB LORATADINE 10 MG"></option><option value="TAB FEXET 120 MG"></option><option value="SYP PANADOL"></option><option value="SYP BRUFEN"></option><option value="SYP AUGMENTIN"></option><option value="SYP AZOMAX"></option><option value="SYP CALPOL"></option><option value="SYP IBUPROFEN"></option><option value="SYP MOTILIUM"></option><option value="SYP GRAVINATE"></option><option value="SYP SIROLIN"></option><option value="SYP HYDROLINE"></option><option value="SYP ARINAC"></option><option value="SYP CALAMOX"></option><option value="SYP ENTEROGERMINA"></option><option value="ORS"></option><option value="TAB DISPRIN"></option><option value="TAB ARINAC"></option><option value="TAB RIGIX"></option><option value="TAB XYZAL 5 MG"></option><option value="TAB LEFLOX 500 MG"></option><option value="TAB NOVIDAT 500 MG"></option><option value="TAB FLEXON"></option><option value="TAB MYONAL 50 MG"></option><option value="TAB SKELETON"></option><option value="TAB OSNATE D"></option><option value="TAB FOLIC ACID 5 MG"></option><option value="TAB IRON"></option><option value="TAB SANGOBION"></option><option value="INJ DECADRON"></option><option value="INJ AVIL"></option><option value="INJ GRAVINATE"></option><option value="CREAM BETNOVATE"></option><option value="CREAM DERMOVATE"></option><option value="LOTION CALAMINE"></option>
+<option value="TAB PANADOL 500 MG"></option><option value="TAB PANADOL CF"></option><option value="TAB AUGMENTIN 625 MG"></option><option value="TAB AZOMAX 250 MG"></option><option value="CAP AZOMAX 250 MG"></option><option value="TAB SOFTIN 5 MG"></option><option value="TAB SOFTIN 10 MG"></option><option value="TAB SURBEX Z"></option><option value="TAB CAC 1000 PLUS"></option><option value="TAB NUBEROL FORTE"></option><option value="TAB BRUFEN 400 MG"></option><option value="TAB VOLTRAL 50 MG"></option><option value="TAB DICLORAN 50 MG"></option><option value="TAB MOTILIUM 10 MG"></option><option value="TAB OMEPRAZOLE 20 MG"></option><option value="CAP RISKEK 20 MG"></option><option value="CAP RISKEK 40 MG"></option><option value="TAB FLAGYL 400 MG"></option><option value="TAB ENTAMIZOLE"></option><option value="TAB CIPROXIN 500 MG"></option><option value="TAB CEFSPAN 400 MG"></option><option value="TAB ZINNAT 500 MG"></option><option value="TAB CALAMOX 625 MG"></option><option value="TAB BETNESOL"></option><option value="TAB AVIL 25 MG"></option><option value="TAB CETRIZINE 10 MG"></option><option value="TAB LORATADINE 10 MG"></option><option value="TAB FEXET 120 MG"></option><option value="SYP PANADOL"></option><option value="SYP BRUFEN"></option><option value="SYP AUGMENTIN"></option><option value="SYP AZOMAX"></option><option value="SYP CALPOL"></option><option value="SYP IBUPROFEN"></option><option value="SYP MOTILIUM"></option><option value="SYP GRAVINATE"></option><option value="SYP SIROLIN"></option><option value="SYP HYDROLINE"></option><option value="SYP ARINAC"></option><option value="SYP CALAMOX"></option><option value="SYP ENTEROGERMINA"></option><option value="SYP CEFCOR 100 MG"></option><option value="SYP CEFCOR 200 MG"></option><option value="SYP NEOLOR"></option><option value="SYP OTRYL"></option><option value="SYP NUSMIC"></option><option value="SYP TERCICA"></option><option value="SYP BION COUGH"></option><option value="SYP CARBEX PLUS"></option><option value="SYP CARBEX 2%"></option><option value="SYP CARBEX 5%"></option><option value="ORS"></option><option value="TAB DISPRIN"></option><option value="TAB ARINAC"></option><option value="TAB RIGIX"></option><option value="TAB XYZAL 5 MG"></option><option value="TAB LEFLOX 500 MG"></option><option value="TAB NOVIDAT 500 MG"></option><option value="TAB FLEXON"></option><option value="TAB MYONAL 50 MG"></option><option value="TAB SKELETON"></option><option value="TAB OSNATE D"></option><option value="TAB FOLIC ACID 5 MG"></option><option value="TAB IRON"></option><option value="TAB SANGOBION"></option><option value="INJ DECADRON"></option><option value="INJ AVIL"></option><option value="INJ GRAVINATE"></option><option value="CREAM BETNOVATE"></option><option value="CREAM DERMOVATE"></option><option value="LOTION CALAMINE"></option>
 </datalist>
-
+<datalist id="doseList">
+<option value="1+0+0"></option><option value="0+0+1"></option><option value="1+0+1"></option><option value="1+1+1"></option><option value="1+1+1+1"></option><option value="2+0+0"></option><option value="0+0+2"></option><option value="2+0+2"></option><option value="2+2+2"></option><option value="2+2+2+1"></option><option value="1 Weekly"></option><option value="1 Alternate Days"></option><option value="1ml+0+0"></option><option value="1ml+1ml"></option><option value="1ml+1ml+1ml"></option><option value="2ml+0+0"></option><option value="2ml+0+2ml"></option><option value="2ml+2ml+2ml"></option><option value="2.5ml"></option><option value="2.5ml+2.5ml+2.5ml"></option><option value="3ml"></option><option value="3ml+3ml+3ml"></option><option value="3.5ml"></option><option value="3.5ml+3.5ml+3.5ml"></option><option value="5ml"></option><option value="5ml+5ml+5ml"></option><option value="7.5ml"></option><option value="7.5ml+7.5ml+7.5ml"></option><option value="10ml"></option><option value="10ml+10ml+10ml"></option><option value="20ml"></option><option value="30ml"></option>
+</datalist>
+<datalist id="adviceList">
+<option value="Take complete rest"></option><option value="Drink plenty of water"></option><option value="Drink more fluids / ORS"></option><option value="Avoid spicy and oily food"></option><option value="Avoid cold drinks and ice cream"></option><option value="Avoid dust, smoke and cold air"></option><option value="Take soft / light diet"></option><option value="Take Khichri, Dalia, Yogurt"></option><option value="Avoid junk food and bakery items"></option><option value="Do not skip medicine - complete the course"></option><option value="Take medicine after meal"></option><option value="Take medicine before meal"></option><option value="Use steam inhalation twice daily"></option><option value="Gargle with warm salt water"></option><option value="Keep the wound clean and dry"></option><option value="Apply cold sponging in fever"></option><option value="Avoid self medication"></option><option value="Check BP and Sugar regularly"></option><option value="Low salt diet"></option><option value="Low sugar diet - avoid sweets"></option><option value="Walk for 30 minutes daily"></option><option value="Avoid lifting heavy weight"></option><option value="Keep the skin clean - do not scratch"></option><option value="Use mosquito net / mosquito repellent"></option><option value="Drink boiled / clean water"></option><option value="Come for follow-up if fever does not settle in 3 days"></option><option value="Come immediately if condition worsens"></option><option value="Come for follow-up after reports"></option><option value="Take plenty of rest and avoid exertion"></option><option value="Avoid tea, coffee and soft drinks"></option><option value="Eat fruits and vegetables"></option>
+</datalist>
 <div class="container no-print">
-
 <div class="card">
 <h2>New Prescription</h2>
 <div class="row">
-<div><label>Date</label><input type="date" id="date"></div>
-<div><label>Patient ID / Token No.</label><input type="text" id="pid" placeholder="e.g. 101"></div>
+<div><label>Date</label><input type="text" id="date" placeholder="DD/MM/YYYY" maxlength="10" inputmode="numeric"></div>
+<div><label>Patient ID / Token No.</label><input type="text" id="pid" list="pidList" placeholder="e.g. 101" autocomplete="off"></div>
 </div>
 <label>Patient Name *</label>
 <input type="text" id="pname" placeholder="Enter Patient Name">
 <div class="row3">
-<div><label>Age</label><input type="number" id="age" placeholder="Age"></div>
+<div><label>Age (e.g. 5 Y, 6 M)</label><input type="text" id="age" placeholder="e.g. 5 Y, 6 M, 2 Y 3 M"></div>
 <div><label>Gender</label><select id="gender"><option>Male</option><option>Female</option><option>Child</option></select></div>
 <div><label>Phone</label><input type="text" id="phone" placeholder="03xx-xxxxxxx"></div>
 </div>
 <label>Address</label><input type="text" id="address" placeholder="Enter Address">
 <div class="row">
-<div><label>Complaint / History</label><input type="text" id="complaint" list="complaintList" placeholder="Type 2-3 letters, e.g. FE..." autocomplete="off"><p class="hint">Type 2-3 letters, list will open - select from list</p></div>
-<div><label>Diagnosis</label><input type="text" id="diagnosis" list="diagnosisList" placeholder="Type 2-3 letters, e.g. UR..." autocomplete="off"><p class="hint">Type 2-3 letters, list will open - select from list</p></div>
+<div><label>Complaint / History</label><input type="text" id="complaint" list="complaintList" placeholder="Type 2-3 letters, e.g. FE..." autocomplete="off"></div>
+<div><label>Diagnosis</label><input type="text" id="diagnosis" list="diagnosisList" placeholder="Type 2-3 letters, e.g. UR..." autocomplete="off"></div>
 </div>
 <label>Vitals</label>
 <div class="row6">
@@ -135,16 +139,16 @@ th{background:var(--navy);color:#fff}
 <div><input type="text" id="rbs" placeholder="RBS:"></div>
 <div><input type="text" id="weight" placeholder="WEIGHT:"></div>
 </div>
-<p class="hint">Sirf number likhen, Print me unit khud lag jayega - BP mmHg, SPO2 %, HR /M, TEM °F, RBS mg/dl, WEIGHT KG</p>
 <label>Test Results</label>
 <textarea id="tests" rows="2" placeholder="e.g. HB: 12, TLC: 12000, PLT: 250,000"></textarea>
 <h3 style="margin:15px 0 0;color:var(--navy);font-size:16px">Medicines</h3>
-<p class="hint">Type medicine name - full name will appear after typing 3 letters. Select Dose and Days only.</p>
 <div id="medList"></div>
 <button class="btn-grey" style="margin-top:8px" onclick="addMed()">+ Add Medicine</button>
-<label>Advice</label><textarea id="advice" rows="2" placeholder="e.g. Take rest, drink more water..."></textarea>
+<label>Advice</label>
+<div class="row"><div><input type="text" id="adviceSelect" list="adviceList" placeholder="Select Advice - e.g. Take rest..."></div><div><button class="btn-green" style="width:100%;padding:11px;margin-top:4px" onclick="addAdvice()">+ Add Advice</button></div></div>
+<textarea id="advice" rows="2" placeholder="Selected Advices will appear here..."></textarea>
 <div class="row">
-<div><label>Follow-up Date</label><input type="date" id="followup"></div>
+<div><label>Follow-up Date</label><input type="text" id="followup" placeholder="DD/MM/YYYY" maxlength="10" inputmode="numeric"></div>
 <div><label>Fees (Rs.)</label><input type="number" id="fees" placeholder="500"></div>
 </div>
 <div class="flex">
@@ -154,7 +158,6 @@ th{background:var(--navy);color:#fff}
 <button class="btn-red" onclick="logout()">Logout</button>
 </div>
 </div>
-
 <div class="card">
 <h2>Patient Records <span class="badge" id="totalCount">0 Records</span></h2>
 <input type="text" id="searchBox" placeholder="Search by Name, Phone or Diagnosis..." onkeyup="renderList()" style="margin-bottom:10px">
@@ -162,7 +165,6 @@ th{background:var(--navy);color:#fff}
 <div class="flex"><button class="btn-navy" onclick="exportCSV()">Excel / CSV Download</button><button class="btn-red" onclick="deleteAll()">Delete All Data</button></div>
 <p style="font-size:12px;color:#666">Data is saved in this mobile / computer browser. It works offline also. When online, it will auto sync to Drive.</p>
 </div>
-
 <div class="card" style="border-top-color:#15803d;text-align:center">
 <h2 style="text-align:center">Cloud Backup</h2>
 <div class="flex" style="justify-content:center">
@@ -171,9 +173,7 @@ th{background:var(--navy);color:#fff}
 </div>
 <p class="hint" id="driveStatus" style="text-align:center">Drive: Not Connected</p>
 </div>
-
 </div>
-
 <div id="printArea">
 <div class="p-head">
 <img src="logo.jpg">
@@ -186,12 +186,11 @@ th{background:var(--navy);color:#fff}
 <div class="p-box p-box-inline"><b>Diagnosis:</b> <span id="pr-diagnosis"></span></div>
 <div class="p-box p-box-inline"><b>Vitals:</b> <span id="pr-vitals"></span></div>
 <div class="p-box p-box-inline"><b>Test Results:</b> <span id="pr-tests"></span></div>
-<div class="p-box"><b>Rx - Medicines:</b><br><span id="pr-meds"></span></div>
+<div class="p-box"><b>Rx - Medicines:</b><div id="pr-meds" class="rx-list"></div></div>
 <div class="p-box"><b>Advice:</b><br><span id="pr-advice"></span></div>
 <div style="margin-top:8px;font-size:12px"><b>Follow-up:</b> <span id="pr-follow"></span> &nbsp; | &nbsp; <b>Fees:</b> Rs. <span id="pr-fees"></span></div>
-<div class="p-sign"><div><b>DR. MUHAMMAD ZEESHAN</b><br>MBBS, RMP (General Physician)<br><br>Signature: ___________</div></div>
+<div class="p-sign"><div><b>DR. MUHAMMAD ZEESHAN</b><br>MBBS, RMP (General Physician)<br><img src="signature.png" onerror="this.style.display='none'" alt=""></div></div>
 </div>
-
 <script src="https://apis.google.com/js/api.js"></script>
 <script src="https://accounts.google.com/gsi/client"></script>
 <script>
@@ -244,19 +243,108 @@ async function syncToDrive(showMsg){
     document.getElementById('driveStatus').innerText='Drive: Last Sync - '+new Date().toLocaleTimeString();
   }catch(e){ if(showMsg) alert('Drive Sync Error - Please Press Connect Google Drive Again'); }
 }
-document.getElementById('date').valueAsDate = new Date();
+function todayDMY(){
+  let n=new Date();
+  let d=String(n.getDate()).padStart(2,'0');
+  let m=String(n.getMonth()+1).padStart(2,'0');
+  let y=n.getFullYear();
+  return d+'/'+m+'/'+y;
+}
+function toDMY(v){
+  v=(v||'').trim();
+  if(!v) return v;
+  if(v.includes('/') && v.split('/').length===3) return v;
+  if(v.includes('-') && v.length===10 && v[4]==='-'){ let p=v.split('-'); return p[2]+'/'+p[1]+'/'+p[0]; }
+  return v;
+}
+function autoSlash(el){
+  let v=el.value.replace(/[^0-9]/g,'').slice(0,8);
+  if(v.length>4) v=v.slice(0,2)+'/'+v.slice(2,4)+'/'+v.slice(4);
+  else if(v.length>2) v=v.slice(0,2)+'/'+v.slice(2);
+  el.value=v;
+}
+document.getElementById('date').value = todayDMY();
+document.getElementById('date').addEventListener('input',()=>autoSlash(document.getElementById('date')));
+document.getElementById('followup').addEventListener('input',()=>autoSlash(document.getElementById('followup')));
+function loadCustomPids(){
+  try{
+    let custom = JSON.parse(localStorage.getItem('sadia_custom_pids')||'[]');
+    let dl = document.getElementById('pidList');
+    custom.forEach(p=>{
+      let exists = Array.from(dl.options).some(o=>o.value===String(p));
+      if(!exists){ let op=document.createElement('option'); op.value=p; dl.appendChild(op); }
+    });
+  }catch(e){}
+}
+function saveCustomPid(val){
+  val=(val||'').trim();
+  if(!val) return;
+  let dl=document.getElementById('pidList');
+  let exists=Array.from(dl.options).some(o=>o.value===val);
+  if(!exists){
+    let op=document.createElement('option'); op.value=val; dl.appendChild(op);
+    try{
+      let custom=JSON.parse(localStorage.getItem('sadia_custom_pids')||'[]');
+      if(!custom.includes(val)){ custom.push(val); localStorage.setItem('sadia_custom_pids',JSON.stringify(custom)); }
+    }catch(e){}
+  }
+}
+document.getElementById('pid').addEventListener('change',()=>saveCustomPid(document.getElementById('pid').value));
+document.getElementById('pid').addEventListener('blur',()=>saveCustomPid(document.getElementById('pid').value));
+loadCustomPids();
 let records = JSON.parse(localStorage.getItem('sadia_records')||'[]');
 let editingIndex = -1;
-let doseOptions = ['','1+0+0','0+0+1','1+0+1','1+1+1','1+1+1+1','2+0+0','0+0+2','2+0+2','2+2+2','2+2+2+1','1 Weekly','1 Alternate Days'];
+let doseOptions = ['1+0+0','0+0+1','1+0+1','1+1+1','1+1+1+1','2+0+0','0+0+2','2+0+2','2+2+2','2+2+2+1','1 Weekly','1 Alternate Days','1ml+0+0','1ml+1ml','1ml+1ml+1ml','2ml+0+0','2ml+0+2ml','2ml+2ml+2ml','2.5ml','2.5ml+2.5ml+2.5ml','3ml','3ml+3ml+3ml','3.5ml','3.5ml+3.5ml+3.5ml','5ml','5ml+5ml+5ml','7.5ml','7.5ml+7.5ml+7.5ml','10ml','10ml+10ml+10ml','20ml','30ml'];
 let daysOptions = ['','1 Day','2 Days','3 Days','4 Days','5 Days','6 Days','7 Days','10 Days','30 Days'];
+function loadCustomMeds(){
+  try{
+    let custom = JSON.parse(localStorage.getItem('sadia_custom_meds')||'[]');
+    let dl = document.getElementById('medicineList');
+    custom.forEach(m=>{
+      let exists = Array.from(dl.options).some(o=>o.value.toUpperCase()===m.toUpperCase());
+      if(!exists){ let op=document.createElement('option'); op.value=m; dl.appendChild(op); }
+    });
+  }catch(e){}
+}
+function saveCustomMed(name){
+  name=(name||'').trim().toUpperCase();
+  if(!name) return;
+  let dl=document.getElementById('medicineList');
+  let exists=Array.from(dl.options).some(o=>o.value.toUpperCase()===name);
+  if(!exists){
+    let op=document.createElement('option'); op.value=name; dl.appendChild(op);
+    try{
+      let custom=JSON.parse(localStorage.getItem('sadia_custom_meds')||'[]');
+      if(!custom.includes(name)){ custom.push(name); localStorage.setItem('sadia_custom_meds',JSON.stringify(custom)); }
+    }catch(e){}
+  }
+}
 function addMed(n='',d='',dy=''){
   let div=document.createElement('div');div.className='row3 med-row';
-  let doseHtml='<select class="m-dose"><option value="">Select Dose</option>'+doseOptions.filter(x=>x).map(o=>`<option ${o===d?'selected':''}>${o}</option>`).join('')+(d && !doseOptions.includes(d)?`<option selected>${d}</option>`:'')+'</select>';
+  let doseHtml=`<input class="m-dose" list="doseList" placeholder="Select / Type Dose" value="${d}">`;
   let daysHtml='<select class="m-days"><option value="">Select Days</option>'+daysOptions.filter(x=>x).map(o=>`<option ${o===dy?'selected':''}>${o}</option>`).join('')+(dy && !daysOptions.includes(dy)?`<option selected>${dy}</option>`:'')+'</select>';
   div.innerHTML=`<input class="m-name" list="medicineList" placeholder="Type 3 letters - e.g. PAN" value="${n}">${doseHtml}${daysHtml}`;
   document.getElementById('medList').appendChild(div);
+  let nameInput=div.querySelector('.m-name');
+  nameInput.addEventListener('change',()=>{ saveCustomMed(nameInput.value); });
+  nameInput.addEventListener('blur',()=>{ saveCustomMed(nameInput.value); });
 }
+loadCustomMeds();
 addMed();
+function addAdvice(){
+  let sel = document.getElementById('adviceSelect');
+  let val = (sel.value||'').trim();
+  if(!val){ alert('Please Select Advice First'); return; }
+  let box = document.getElementById('advice');
+  let cur = (box.value||'').trim();
+  if(cur && !cur.endsWith('.') && !cur.endsWith(',')) cur += '. ';
+  else if(cur) cur += ' ';
+  box.value = (cur + val + '. ').trim();
+  sel.value = '';
+  let dl = document.getElementById('adviceList');
+  let exists = Array.from(dl.options).some(o=>o.value.toLowerCase()===val.toLowerCase());
+  if(!exists){ let op=document.createElement('option'); op.value=val; dl.appendChild(op); }
+}
 function withUnit(val, unit){
   val = (val||'').trim();
   if(!val) return '';
@@ -264,7 +352,8 @@ function withUnit(val, unit){
   return val + ' ' + unit;
 }
 function getForm(){
-  let meds=[];document.querySelectorAll('.med-row').forEach(r=>{let n=r.querySelector('.m-name').value,d=r.querySelector('.m-dose').value,dy=r.querySelector('.m-days').value;if(n)meds.push(n+' - '+d+' - '+dy);});
+  let meds=[];document.querySelectorAll('.med-row').forEach(r=>{let n=r.querySelector('.m-name').value,d=r.querySelector('.m-dose').value,dy=r.querySelector('.m-days').value;if(n){ meds.push(n+' - '+d+' - '+dy); saveCustomMed(n); }});
+  saveCustomPid(document.getElementById('pid').value);
   let bpV = withUnit(document.getElementById('bp').value, 'mmHg');
   let spo2V = withUnit(document.getElementById('spo2').value, '%');
   let hrV = withUnit(document.getElementById('hr').value, '/M');
@@ -278,19 +367,39 @@ function getForm(){
   if(tempV) vitals.push('TEM: '+tempV);
   if(rbsV) vitals.push('RBS: '+rbsV);
   if(wtV) vitals.push('WEIGHT: '+wtV);
-  return{date:document.getElementById('date').value,pid:document.getElementById('pid').value,name:document.getElementById('pname').value,age:document.getElementById('age').value,gender:document.getElementById('gender').value,phone:document.getElementById('phone').value,address:document.getElementById('address').value,complaint:document.getElementById('complaint').value,diagnosis:document.getElementById('diagnosis').value,vitals:vitals.join(' | '),vitalsRaw:{bp:document.getElementById('bp').value,spo2:document.getElementById('spo2').value,hr:document.getElementById('hr').value,temp:document.getElementById('temp').value,rbs:document.getElementById('rbs').value,weight:document.getElementById('weight').value},tests:document.getElementById('tests').value,meds:meds.join(' | '),medsRaw:meds,advice:document.getElementById('advice').value,followup:document.getElementById('followup').value,fees:document.getElementById('fees').value,};
+  return{date:toDMY(document.getElementById('date').value),pid:document.getElementById('pid').value,name:document.getElementById('pname').value,age:document.getElementById('age').value,gender:document.getElementById('gender').value,phone:document.getElementById('phone').value,address:document.getElementById('address').value,complaint:document.getElementById('complaint').value,diagnosis:document.getElementById('diagnosis').value,vitals:vitals.join(' | '),vitalsRaw:{bp:document.getElementById('bp').value,spo2:document.getElementById('spo2').value,hr:document.getElementById('hr').value,temp:document.getElementById('temp').value,rbs:document.getElementById('rbs').value,weight:document.getElementById('weight').value},tests:document.getElementById('tests').value,meds:meds.join(' | '),medsRaw:meds,advice:document.getElementById('advice').value,followup:toDMY(document.getElementById('followup').value),fees:document.getElementById('fees').value,};
 }
-function fillPrint(d){document.getElementById('pr-date').innerText=d.date;document.getElementById('pr-pid').innerText=d.pid;document.getElementById('pr-name').innerText=d.name;document.getElementById('pr-age').innerText=d.age+' / '+d.gender;document.getElementById('pr-phone').innerText=d.phone;document.getElementById('pr-address').innerText=d.address;document.getElementById('pr-complaint').innerText=d.complaint;document.getElementById('pr-diagnosis').innerText=d.diagnosis;document.getElementById('pr-vitals').innerText=d.vitals||'';document.getElementById('pr-tests').innerText=d.tests||'';document.getElementById('pr-meds').innerText=d.meds;document.getElementById('pr-advice').innerText=d.advice;document.getElementById('pr-follow').innerText=d.followup;document.getElementById('pr-fees').innerText=d.fees;}
+function fillPrint(d){
+  document.getElementById('pr-date').innerText=toDMY(d.date);
+  document.getElementById('pr-pid').innerText=d.pid;
+  document.getElementById('pr-name').innerText=d.name;
+  document.getElementById('pr-age').innerText=d.age+' / '+d.gender;
+  document.getElementById('pr-phone').innerText=d.phone;
+  document.getElementById('pr-address').innerText=d.address;
+  document.getElementById('pr-complaint').innerText=d.complaint;
+  document.getElementById('pr-diagnosis').innerText=d.diagnosis;
+  document.getElementById('pr-vitals').innerText=d.vitals||'';
+  document.getElementById('pr-tests').innerText=d.tests||'';
+  let medsArr = d.medsRaw && d.medsRaw.length ? d.medsRaw : (d.meds ? d.meds.split(' | ') : []);
+  let medsHtml = medsArr.map((m,i)=>{
+    let clean = m.replace(/ - /g,' ').replace(/\s+-\s*$/,'').trim();
+    return '<div class="rx-item">'+(i+1)+'. '+clean+'</div>';
+  }).join('');
+  document.getElementById('pr-meds').innerHTML = medsHtml;
+  document.getElementById('pr-advice').innerText=d.advice;
+  document.getElementById('pr-follow').innerText=toDMY(d.followup);
+  document.getElementById('pr-fees').innerText=d.fees;
+}
 function saveData(d){if(editingIndex>=0){records[editingIndex]=d;editingIndex=-1;}else{records.unshift(d);}localStorage.setItem('sadia_records',JSON.stringify(records));renderList();autoSync();}
 function saveOnly(){let d=getForm();if(!d.name){alert('Please enter Patient Name');return;}saveData(d);alert('Saved');clearForm();}
 function saveAndPrint(){let d=getForm();if(!d.name){alert('Please enter Patient Name');return;}saveData(d);fillPrint(d);window.print();clearForm();}
-function clearForm(){editingIndex=-1;document.querySelectorAll('input[type=text],input[type=number],textarea').forEach(e=>e.value='');document.getElementById('date').valueAsDate=new Date();document.getElementById('medList').innerHTML='';addMed();}
-function renderList(){let q=(document.getElementById('searchBox').value||'').toLowerCase();let tb=document.getElementById('recordTable');tb.innerHTML='';let filtered=records.filter(r=>(r.name+' '+r.phone+' '+r.diagnosis).toLowerCase().includes(q));document.getElementById('totalCount').innerText=records.length+' Records';filtered.forEach((r)=>{let idx=records.indexOf(r);tb.innerHTML+=`<tr><td>${r.date}</td><td><b>${r.name}</b><br><small>${r.age} / ${r.gender}</small></td><td>${r.phone}</td><td>${r.diagnosis}</td><td>${r.fees}</td><td><button class="btn-blue" onclick="viewRec(${idx})">Print</button> <button class="btn-green" onclick="editRec(${idx})">Edit</button> <button class="btn-red" onclick="delRec(${idx})">Del</button></td></tr>`;});}
+function clearForm(){editingIndex=-1;document.querySelectorAll('input[type=text],input[type=number],textarea').forEach(e=>e.value='');document.getElementById('date').value=todayDMY();document.getElementById('medList').innerHTML='';addMed();}
+function renderList(){let q=(document.getElementById('searchBox').value||'').toLowerCase();let tb=document.getElementById('recordTable');tb.innerHTML='';let filtered=records.filter(r=>(r.name+' '+r.phone+' '+r.diagnosis).toLowerCase().includes(q));document.getElementById('totalCount').innerText=records.length+' Records';filtered.forEach((r)=>{let idx=records.indexOf(r);tb.innerHTML+=`<tr><td>${toDMY(r.date)}</td><td><b>${r.name}</b><br><small>${r.age} / ${r.gender}</small></td><td>${r.diagnosis}</td><td>${r.phone}</td><td>${r.fees}</td><td><button class="btn-blue" onclick="viewRec(${idx})">Print</button> <button class="btn-green" onclick="editRec(${idx})">Edit</button> <button class="btn-red" onclick="delRec(${idx})">Del</button></td></tr>`;});}
 function viewRec(i){fillPrint(records[i]);window.print();}
-function editRec(i){let r=records[i];editingIndex=i;document.getElementById('date').value=r.date;document.getElementById('pid').value=r.pid||'';document.getElementById('pname').value=r.name;document.getElementById('age').value=r.age||'';document.getElementById('gender').value=r.gender||'Male';document.getElementById('phone').value=r.phone||'';document.getElementById('address').value=r.address||'';document.getElementById('complaint').value=r.complaint||'';document.getElementById('diagnosis').value=r.diagnosis||'';document.getElementById('tests').value=r.tests||'';document.getElementById('advice').value=r.advice||'';document.getElementById('followup').value=r.followup||'';document.getElementById('fees').value=r.fees||'';if(r.vitalsRaw){document.getElementById('bp').value=r.vitalsRaw.bp||'';document.getElementById('spo2').value=r.vitalsRaw.spo2||'';document.getElementById('hr').value=r.vitalsRaw.hr||'';document.getElementById('temp').value=r.vitalsRaw.temp||'';document.getElementById('rbs').value=r.vitalsRaw.rbs||'';document.getElementById('weight').value=r.vitalsRaw.weight||'';}document.getElementById('medList').innerHTML='';if(r.medsRaw && r.medsRaw.length){r.medsRaw.forEach(m=>{let parts=m.split(' - ');addMed(parts[0]||'',parts[1]||'',parts[2]||'');});}else{addMed();}window.scrollTo({top:0,behavior:'smooth'});alert('Now you can Edit this record and press Save. It will update the same record.');}
+function editRec(i){let r=records[i];editingIndex=i;document.getElementById('date').value=toDMY(r.date);document.getElementById('pid').value=r.pid||'';document.getElementById('pname').value=r.name;document.getElementById('age').value=r.age||'';document.getElementById('gender').value=r.gender||'Male';document.getElementById('phone').value=r.phone||'';document.getElementById('address').value=r.address||'';document.getElementById('complaint').value=r.complaint||'';document.getElementById('diagnosis').value=r.diagnosis||'';document.getElementById('tests').value=r.tests||'';document.getElementById('advice').value=r.advice||'';document.getElementById('followup').value=toDMY(r.followup||'');document.getElementById('fees').value=r.fees||'';if(r.vitalsRaw){document.getElementById('bp').value=r.vitalsRaw.bp||'';document.getElementById('spo2').value=r.vitalsRaw.spo2||'';document.getElementById('hr').value=r.vitalsRaw.hr||'';document.getElementById('temp').value=r.vitalsRaw.temp||'';document.getElementById('rbs').value=r.vitalsRaw.rbs||'';document.getElementById('weight').value=r.vitalsRaw.weight||'';}document.getElementById('medList').innerHTML='';if(r.medsRaw && r.medsRaw.length){r.medsRaw.forEach(m=>{let parts=m.split(' - ');addMed(parts[0]||'',parts[1]||'',parts[2]||'');});}else{addMed();}window.scrollTo({top:0,behavior:'smooth'});alert('Now you can Edit this record and press Save. It will update the same record.');}
 function delRec(i){if(confirm('Delete this record?')){records.splice(i,1);localStorage.setItem('sadia_records',JSON.stringify(records));renderList();autoSync();}}
 function deleteAll(){if(confirm('Delete all data?')){records=[];localStorage.removeItem('sadia_records');renderList();}}
-function exportCSV(){let csv='Date,ID,Name,Age,Gender,Phone,Diagnosis,Vitals,Tests,Medicines,Fees,Followup\n';records.forEach(r=>{csv+=`"${r.date}","${r.pid}","${r.name}","${r.age}","${r.gender}","${r.phone}","${r.diagnosis}","${r.vitals}","${r.tests}","${r.meds}","${r.fees}","${r.followup}"\n`});let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='sadia-clinic-records.csv';a.click();}
+function exportCSV(){let csv='Date,ID,Name,Age,Gender,Phone,Diagnosis,Vitals,Tests,Medicines,Fees,Followup\n';records.forEach(r=>{csv+=`"${toDMY(r.date)}","${r.pid}","${r.name}","${r.age}","${r.gender}","${r.phone}","${r.diagnosis}","${r.vitals}","${r.tests}","${r.meds}","${r.fees}","${toDMY(r.followup)}"\n`});let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='sadia-clinic-records.csv';a.click();}
 renderList();
 updateStatus();
 </script>
